@@ -11,4 +11,4 @@ This is a greenfield project and there is no contribution system yet so if you w
 
 I am working on a better documentation, if you have any doubts do not hesitate to send me an email:>
 
--> my emial : smms011009@gmail.com 
+-> my email : mssm011009@gmail.com
