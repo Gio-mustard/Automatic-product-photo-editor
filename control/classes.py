@@ -89,7 +89,6 @@ class MarkImage(object):
         # retorna una copia del objeto en su estado actual
         return MarkImage(
             bytes_image=self.__image.tobytes(),
-            importance=self.importance,
         )
 
     def _show_image(self)->None:
@@ -99,6 +98,9 @@ class MarkImage(object):
         """
         self.__image.show(f"{self.id}")
 
+    def to_image(self)->Image.Image:
+        return self.__image
+
     def __str__(self)->str:
         return f"{self.__image}"
     
@@ -106,8 +108,65 @@ class MarkImage(object):
         return self.__image.tobytes()
 
 class MarkStack:
-    def __init__(self,images:tuple[MarkImage],background:Image.Image):
+    def __init__(self,images:tuple[MarkImage],background:Image.Image,padding:int=10,gap:int=10):
         self._images = images
-        self._background = background
+        self.__background = background
+        self.__padding = padding # in pixels
+        self.__gap = gap # in pixels
     
-    def get_image()->MarkImage:pass
+    # background
+    @property
+    def background(self)->Image.Image:
+        return self.__background
+    
+    @background.setter
+    def background(self,new_background):
+        if type(new_background) != Image.Image:raise TypeError("El background solo puede ser de tipo Image")
+        self.__background = new_background
+
+    # padding
+    @property
+    def padding(self)->int:
+        return self.__padding
+    
+    @padding.setter
+    def padding(self,new_padding:int)->None:
+        if new_padding < 0 : raise ValueError("El padding no puede ser inferior a 0 pixeles")
+        self.__padding = new_padding
+
+    # gap
+    @property
+    def gap(self)->int:
+        return self.__gap
+    
+    @gap.setter
+    def gap(self,new_gap:int)->None:
+        self.__gap = new_gap
+
+    def get_image()->MarkImage:pass # ? Porque no se llama 'get_mark_image()'
+    
+    # processing stack images
+    def _paste_images(self)->None:
+        """
+        1. verificar padding 
+        2. colocar primer imagen (se le aplica el transform si aun no lo tiene #TODO hay que implementar esto después)
+        3. iterar 2.
+        4. crear imagen resultante (tiene que ser separada a el background) #? o puede ser el background el canvas para colocar las imágenes 
+        """
+        # Aquí suponemos que se usara el background para ir colocando las imágenes
+        last_location = (self.__padding,self.__padding)
+        for mark_image in self._images:
+            mark_image:MarkImage
+            image = mark_image.to_image()
+            self.__background.paste(
+                im=image,
+                box=last_location,
+                mask=image
+                )
+            last_location = (
+                #width
+                image.size[0] + self.__padding + self.__gap,
+                #height
+                self.__padding
+            )
+        self.__background.show()
