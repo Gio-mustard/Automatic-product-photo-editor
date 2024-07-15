@@ -104,3 +104,10 @@ class MarkImage(object):
     
     def to_bytes(self)->bytes:
         return self.__image.tobytes()
+
+class MarkStack:
+    def __init__(self,images:tuple[MarkImage],background:Image.Image):
+        self._images = images
+        self._background = background
+    
+    def get_image()->MarkImage:pass
