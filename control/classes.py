@@ -7,7 +7,7 @@ class MarkImage(object):
     """
     Esta clase encapsula y abstrae los métodos principales de edición automática de imágenes (solo es una imagen)
     """
-    def __init__(self, bytes_image: bytes,bg_color:tuple[float|int]=(255,255,255,255),transform=None) -> None:
+    def __init__(self, initial_image: bytes|Image.Image,bg_color:tuple[float|int]=(255,255,255,255),transform=None) -> None:
         """
         @property __image : la imagen cruda del objeto
         @property __bg_color : la imagen creada con el color dado , esta se usara por detrás de __image
@@ -16,7 +16,10 @@ class MarkImage(object):
         ### TODO : aun no esta implementada.
         ! @property __transform : una función de trasformación aplicable solo a __image en el estado actual de la misma.
         """
-        self.__image = self.__load_bytes(bytes_image)
+        self.__check_types(
+            initial_image
+        )
+        self.__image = self.__load_image(initial_image)
         self.__bg_color:tuple
         self.set_bg(bg_color)
         self.id = uuid4()
@@ -24,6 +27,13 @@ class MarkImage(object):
         self.__enhanced_image = None
 
     #* validators
+    def __check_types(self,initial_image)->None:
+        initial_image_type = type(initial_image)
+        print(initial_image_type != bytes)
+        print(initial_image_type != Image.Image)
+        if (initial_image_type != Image.Image) and (initial_image_type != bytes):
+            raise TypeError(f"initial_image must be Image or raw bytes you have this : {initial_image_type}.")
+        
     def __validate_bg_color(self, bg_color:tuple[float|int])->bool|Exception:
         # TODO: Hay que crear Excepciones propias para la clase.
         """
@@ -67,7 +77,11 @@ class MarkImage(object):
         lee y retorna los bytes en una nueva imagen.
         """
         return Image.open(BytesIO(bytes_image))
-
+    def __load_image(self, image: Image.Image|bytes)->Image.Image:
+        if type(image) == Image.Image:
+            return image
+        return self.__load_bytes(image)
+    
     #* transform main image methods
     def set_transform(self, new_transform):pass
 
@@ -88,7 +102,7 @@ class MarkImage(object):
     def copy(self):
         # retorna una copia del objeto en su estado actual
         return MarkImage(
-            bytes_image=self.__image.tobytes(),
+            initial_image=self.__image.copy(),
         )
 
     def _show_image(self)->None:
