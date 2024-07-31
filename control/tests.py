@@ -1,3 +1,4 @@
+from constants import VERTICAL,HORIZONTAL
 from django.test import TestCase
 import classes
 from PIL import Image
@@ -30,7 +31,8 @@ mark_stack = classes.MarkStack(
     images=images,
     background=background,
     padding=100,
-    gap=-100
-
+    gap=-100,
+    alignment_in = {VERTICAL,HORIZONTAL},
+    direction=HORIZONTAL
 )
-mark_stack._paste_images()
+mark_stack.make_stack().show()
