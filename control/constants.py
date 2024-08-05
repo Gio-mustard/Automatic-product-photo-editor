@@ -1,5 +1,7 @@
+from enum import Enum,auto,unique
 # mark stack
 
-#* directions to paste
-HORIZONTAL = 17
-VERTICAL = 10
+@unique
+class StackOptions(Enum):
+    HORIZONTAL = auto()
+    VERTICAL = auto()

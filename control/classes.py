@@ -2,7 +2,7 @@ from uuid import uuid4
 from rembg import remove
 from PIL import Image, ImageEnhance
 from io import BytesIO
-from constants import HORIZONTAL, VERTICAL
+from constants import StackOptions
 
 
 class MarkImage(object):
@@ -130,7 +130,7 @@ class MarkImage(object):
         return self.__image.tobytes()
 
 class MarkStack:
-    def __init__(self, images: tuple[MarkImage], background: Image.Image, padding: int = 10, gap: int = 10,alignment_in:set= (None,None),direction:int=HORIZONTAL):
+    def __init__(self, images: tuple[MarkImage], background: Image.Image, padding: int = 10, gap: int = 10,alignment_in:set= (None,None),direction:int=StackOptions.HORIZONTAL):
         """
         @param alignment_in: tuple(HORIZONTAL,VERTICAL) constants from constants.py
         @param direction: HORIZONTAL || VERTICAL constants from constants.py
@@ -176,7 +176,7 @@ class MarkStack:
     # orientation
     @property
     def direction(self)->str:
-        return f"Direction in {'Vertical'if self.__orientation == VERTICAL else 'Horizontal'}"
+        return f"StackOptions in {'Vertical'if self.__orientation == StackOptions.VERTICAL else 'Horizontal'}"
     
     @direction.setter
     def direction(self, new_direction)->None:
@@ -193,12 +193,12 @@ class MarkStack:
         horizontal_alignment,vertical_alignment = alignment
         if previous_coordinates is None:
             return (horizontal_alignment+self.padding,vertical_alignment+self.padding) # TODO temporal: hay que agregar el alignment
-        if self.__direction == HORIZONTAL:
+        if self.__direction == StackOptions.HORIZONTAL:
             return (
                 horizontal_alignment + (previous_coordinates[0] + previous_image_size[0] + self.__gap),
                 vertical_alignment   + self.__padding
             )
-        elif self.__direction == VERTICAL:
+        elif self.__direction == StackOptions.VERTICAL:
             return (
                 horizontal_alignment + self.__padding,
                 vertical_alignment   + (previous_coordinates[1] + previous_image_size[1]+ self.__gap)
@@ -220,8 +220,8 @@ class MarkStack:
             image = mark_image.to_image()
             alignment = self.__get_alignments(
                 current_image_size=image.size,
-                has_horizontal= HORIZONTAL in self.__alignment_in,
-                has_vertical=VERTICAL in self.__alignment_in
+                has_horizontal= StackOptions.HORIZONTAL in self.__alignment_in,
+                has_vertical=StackOptions.VERTICAL in self.__alignment_in
             )
             coordinates = self.__get_coordinates(previous_coordinates,previous_image_size,alignment)
             self.__background.paste(
