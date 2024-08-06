@@ -3,7 +3,7 @@ from rembg import remove
 from PIL import Image, ImageEnhance
 from io import BytesIO
 from constants import StackOptions
-
+from scaling_funtions import scaling_object
 
 class MarkImage(object):
     """
@@ -32,8 +32,6 @@ class MarkImage(object):
     # * validators
     def __check_types(self, initial_image) -> None:
         initial_image_type = type(initial_image)
-        print(initial_image_type != bytes)
-        print(initial_image_type != Image.Image)
         if (initial_image_type != Image.Image) and (initial_image_type != bytes):
             raise TypeError(
                 f"initial_image must be Image or raw bytes you have this : {initial_image_type}.")
@@ -130,7 +128,7 @@ class MarkImage(object):
         return self.__image.tobytes()
 
 class MarkStack:
-    def __init__(self, images: tuple[MarkImage], background: Image.Image, padding: int = 10, gap: int = 10,alignment_in:set= (None,None),direction:int=StackOptions.HORIZONTAL):
+    def __init__(self, images: tuple[MarkImage], background: Image.Image, padding: int = 10, gap: int = 10,alignment_in:set= (None,None),direction:int=StackOptions.HORIZONTAL,scaling_function=None):
         """
         @param alignment_in: tuple(HORIZONTAL,VERTICAL) constants from constants.py
         @param direction: HORIZONTAL || VERTICAL constants from constants.py
@@ -141,6 +139,25 @@ class MarkStack:
         self.__gap = gap  # in pixels
         self.__alignment_in = alignment_in
         self.__direction = direction
+        self.__scaling_function = None
+        self.__scaling_options = None
+        self.__canvas_size = tuple()
+        self.__calculate_and_update_canvas_size()
+        
+        self.scaling_function = scaling_object.initial if scaling_function == None  else scaling_function
+
+    # canvas size
+    def __calculate_and_update_canvas_size(self):
+        width,height = self.__background.size
+        width -= (self.__padding * 2)
+        height -= (self.__padding * 2)
+        match self.__direction:
+            case StackOptions.HORIZONTAL:
+                width -= self.__gap * (len(self._images) - 1)
+            case StackOptions.VERTICAL:
+                height -= self.__gap * (len(self._images) - 1)
+
+        self.__canvas_size = (width,height)
 
     # background
     @property
@@ -151,6 +168,7 @@ class MarkStack:
     def background(self, new_background):
         if type(new_background) != Image.Image: raise TypeError(
             "El background solo puede ser de tipo Image")
+        self.__calculate_and_update_canvas_size()
         self.__background = new_background
 
     # padding
@@ -163,6 +181,7 @@ class MarkStack:
         if new_padding < 0: raise ValueError(
             "El padding no puede ser inferior a 0 pixeles")
         self.__padding = new_padding
+        self.__calculate_and_update_canvas_size()
 
     # gap
     @property
@@ -172,6 +191,7 @@ class MarkStack:
     @gap.setter
     def gap(self, new_gap: int) -> None:
         self.__gap = new_gap
+        self.__calculate_and_update_canvas_size()
 
     # orientation
     @property
@@ -180,7 +200,19 @@ class MarkStack:
     
     @direction.setter
     def direction(self, new_direction)->None:
-        self.__direction = new_direction 
+        self.__direction = new_direction
+        self.__calculate_and_update_canvas_size()
+
+    # scaling
+    @property
+    def scaling_function(self):
+        return self.__scaling_function
+    
+    @scaling_function.setter
+    def scaling_function(self, new_scaling_function:tuple)->None:
+        options_function,scaling_function = new_scaling_function()
+        self.__scaling_options = options_function(self.__canvas_size,self._images,self.__direction)
+        self.__scaling_function = scaling_function
 
     def get_image() -> MarkImage: pass  # ? Porque no se llama 'get_mark_image()'
 
@@ -218,6 +250,9 @@ class MarkStack:
         for mark_image in self._images:
             mark_image:MarkImage
             image = mark_image.to_image()
+            image = self.__scaling_function(
+                image,self.__scaling_options
+            )
             alignment = self.__get_alignments(
                 current_image_size=image.size,
                 has_horizontal= StackOptions.HORIZONTAL in self.__alignment_in,
