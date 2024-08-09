@@ -20,3 +20,21 @@ Actualmente cada MarkImage tiene la capacidad de...
 Y como sub funcionalidades...
 * Convertir la instancia en `bytes`.
 * Convertir la instancia en `Image`.
+
+## MarkStack
+Esta clase puede juntar y administrar una serie de `MarkImage` (en una tupla).
+
+-> Esta clase esta dividida (conceptualmente) en dos partes.
+### Canvas
+Es un objeto delegado de tipo `Image` el cual es llamado `background` en la propiedad de la clase.
+El canvas es la imagen donde se Iran colocando cada una de las `MarkImage` que contenga el `MarkStack`, se van colocando según su orden en la tupla.
+
+### Images
+Es la propiedad de tipo tupla en donde se guardan las referencias de cada `MarkImage` dentro de cualquier proceso que pueda tener el `MarkStack` nunca se modifica nada de las referencias a las `MarkImage`.
+
+----
+El `MarkStack` agrupa a todas las `MarkImage's` de manera inteligente.
+
+> Puedes ver el archivo [scaling_functions.py](./scaling_funtions.py) para saber como se escalan cada una de las `MarkImage's` en el canvas del `MarkStack`.
+
+> O también puedes ver el resumen de las reglas [aquí](./rules-stale.md).
