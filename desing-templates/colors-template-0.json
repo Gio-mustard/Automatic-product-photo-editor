@@ -10,5 +10,13 @@
     "800": "#926d0e",
     "900": "#785b0f",
     "950": "#453303"
+},
+"final-color":{
+    "text":"#453303",
+    "button-green":"#E3FFB9",
+    "button-red":"#FE9081",
+    "button-grey":"#EEEEEE",
+    "background-grey":"#DDDDDD",
+    "background-white":"#FFFFFF"
 }
 }
