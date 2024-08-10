@@ -4,7 +4,7 @@ from PIL import Image, ImageEnhance
 from io import BytesIO
 from constants import StackOptions
 from scaling_funtions import scaling_object
-
+from transforms import default
 class MarkImage(object):
     """
     Esta clase encapsula y abstrae los métodos principales de edición automática de imágenes (solo es una imagen)
@@ -28,6 +28,7 @@ class MarkImage(object):
         self.id = uuid4()
         self.__transform = transform
         self.__enhanced_image = None
+        self.set_transform(default,any=None)
 
     # * validators
     def __check_types(self, initial_image) -> None:
@@ -89,9 +90,13 @@ class MarkImage(object):
         return self.__load_bytes(image)
 
     # * transform main image methods
-    def set_transform(self, new_transform): pass
+    def set_transform(self, new_transform,**kwargs):
+        self.__transform = (new_transform,kwargs)
 
-    def apply_transform(self): pass
+    def apply_transform(self):
+        params = self.__transform[1]
+        transform = self.__transform[0]
+        self.__image = transform(im=self.__image, **params)
 
     # * enhanced image methods
     def __enhance_image(self) -> Image.Image:
