@@ -4,13 +4,13 @@ from history import History
 
 def __check_history(im,id_mark_image,transform)->Image.Image|None:
     if History.has(
-            id_mark_image=id,
-            transform=rotate
+            id_mark_image=id_mark_image,
+            transform=transform
     ): return im
     # En caso de que no se haya aplicado esta transformación a la mark image.
     History.push(
-            id_mark_image=id,
-            transform=rotate
+            id_mark_image=id_mark_image,
+            transform=transform
         )
 
 def default(im:Image.Image,**kwargs)->Image.Image:
