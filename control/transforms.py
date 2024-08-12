@@ -17,6 +17,13 @@ def default(im:Image.Image,**kwargs)->Image.Image:
     return im
 
 def rotate(im:Image.Image,id_mark_image:str,deg:int=0,crop:bool=False,max_quality:bool=True,fillcolor:tuple = None):
+    """
+    !IMPORTANTE
+    No es necesario y no deberías pasar los siguiente parámetros...
+    @im
+    @id_mark_image
+    Estos se pasaran de forma automática cuando se llame el método para hacer la trasformación
+    """
     returned = __check_history(im,id_mark_image,rotate)
     if isinstance(returned,Image.Image):return returned
     return im.rotate(
