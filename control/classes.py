@@ -5,7 +5,8 @@ from io import BytesIO
 from constants import StackOptions
 from scaling_funtions import scaling_object
 from transforms import default
-class MarkImage(object):
+from history import History
+class MarkImage(History): # se hereda solo para incrementar el contador de mark images actuales para nada mas...
     """
     Esta clase encapsula y abstrae los métodos principales de edición automática de imágenes (solo es una imagen)
     """
@@ -19,6 +20,7 @@ class MarkImage(object):
         ### TODO : aun no esta implementada.
         ! @property __transform : una función de trasformación aplicable solo a __image en el estado actual de la misma.
         """
+        super().__init__()
         self.__check_types(
             initial_image
         )
@@ -96,7 +98,7 @@ class MarkImage(object):
     def apply_transform(self):
         params = self.__transform[1]
         transform = self.__transform[0]
-        self.__image = transform(im=self.__image, **params)
+        self.__image = transform(im=self.__image,id_mark_image=str(self.id), **params)
 
     # * enhanced image methods
     def __enhance_image(self) -> Image.Image:
