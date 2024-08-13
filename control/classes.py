@@ -17,8 +17,7 @@ class MarkImage(History): # se hereda solo para incrementar el contador de mark 
         @property __bg_color : la imagen creada con el color dado , esta se usara por detrás de __image
         @property __enhanced_image : es la __image pero resaltada para facilitar la visualización del objeto principal de la imagen (por ahora solo sirve para quitar el fondo de una imagen, se usa como una mascara de recorte).
         @id : solo es un identificador del objeto.
-        ### TODO : aun no esta implementada.
-        ! @property __transform : una función de trasformación aplicable solo a __image en el estado actual de la misma.
+        @property __transform : una función de trasformación aplicable solo a __image en el estado actual de la misma.
         """
         super().__init__()
         self.__check_types(
@@ -29,6 +28,7 @@ class MarkImage(History): # se hereda solo para incrementar el contador de mark 
         self.set_bg(bg_color)
         self.id = uuid4()
         self.__transform = transform
+        self.transformation_applied = False
         self.__enhanced_image = None
         self.set_transform(default,any=None)
 
@@ -94,11 +94,13 @@ class MarkImage(History): # se hereda solo para incrementar el contador de mark 
     # * transform main image methods
     def set_transform(self, new_transform,**kwargs):
         self.__transform = (new_transform,kwargs)
+        self.transformation_applied = False
 
     def apply_transform(self):
         params = self.__transform[1]
         transform = self.__transform[0]
         self.__image = transform(im=self.__image,id_mark_image=str(self.id), **params)
+        self.transformation_applied = True
 
     # * enhanced image methods
     def __enhance_image(self) -> Image.Image:
@@ -244,19 +246,29 @@ class MarkStack:
             )
         
     # processing stack images
-    def _paste_images(self)->None:
+    def _paste_images(self,transform)->None:
         """
         1. verificar padding 
-        2. colocar primer imagen (se le aplica el transform si aun no lo tiene #TODO hay que implementar esto después)
-        3. iterar 2.
-        4. crear imagen resultante (tiene que ser separada a el background) #? o puede ser el background el canvas para colocar las imágenes 
+        2. colocar primer imagen (se le aplica el transform si aun no lo tiene)
+        3. aplicar transform general
+        4. iterar 2-3.
+        5. crear imagen resultante (tiene que ser separada a el background) #? o puede ser el background el canvas para colocar las imágenes 
         """
-        # Aquí suponemos que se usara el background para ir colocando las imágenes
         previous_coordinates = None
         previous_image_size = None
-        for mark_image in self._images:
+        num_of_images = len(self._images)
+        # 2 - 4
+        for index,mark_image in enumerate(self._images):
             mark_image:MarkImage
-            image = mark_image.to_image()
+            # 2 aplicar transformación a la imagen si no la tiene.
+            if not mark_image.transformation_applied: mark_image.apply_transform()
+            # 3 aplicar transformación general
+            image = transform(
+                mark_image.to_image(),
+                mark_image.id,
+                index,
+                num_of_images
+            )
             image = self.__scaling_function(
                 image,self.__scaling_options
             )
@@ -273,7 +285,24 @@ class MarkStack:
                 )
             previous_image_size = image.size
             previous_coordinates = coordinates
-    
-    def make_stack(self)->Image:
-        self._paste_images()
         return self.__background
+    
+    def make_stack(self,transform=default)->Image.Image:
+        """
+        # Transform
+        Es una función de transformación que se aplica a cada una de las `MarkImage` del `MarkStack` (no es obligatoria). \n
+        ! Es importante que retornes siempre un objeto de tipo PIL.Image.Image (tiene que ser tu imagen ya transformada para que tenga sentido el callback).\n
+        -----
+        ## Argumentos del callback (Son obligatorios no te pases de listo)
+        Puedes cambiar los nombres pero nunca el orden de los parámetros.\n
+        @ im :PIL.Image.Image -> La imagen en crudo \n
+        @ mark_image_id : str -> El id actual del MarkImage (en momento de ejecución) \n
+        @ index : int -> El index de la imagen actual (en momento de ejecución) \n
+        @ num_of_images : int -> El numero total de imágenes que tiene el stack \n
+        -----
+        Puedes usar este call back para aplicar transformaciones a las imágenes dentro del stack.\n
+        ## IMPORTANTE
+        Recuerda usar el argumento `force` en True siempre (cuando uses este callback) para que no tengas problema con el Historial que bloquea la acción de aplicar mas de una vez una transformación a un MarkImage.\n
+        """
+        return self._paste_images(transform)
+        

@@ -21,6 +21,44 @@ Y como sub funcionalidades...
 * Convertir la instancia en `bytes`.
 * Convertir la instancia en `Image`.
 
+
+### Transform
+Una transformación es una función la cual cambia el aspecto de la `MarkImage` entre las transformaciones actuales están...
+
+* default -> esta la tienen todas las MarkImage por defecto y no hace nada.
+* rotate
+* out_shadow
+
+#### Comportamiento
+Una trasformación sigue el siguiente patron...
+```py
+def default(im:Image.Image,**kwargs)->Image.Image:
+    returned = __check_history(im,id_mark_image,rotate)
+    if isinstance(returned,Image.Image):return returned
+    # do something...
+    return im
+```
+La transformación recibe la imagen , verifica en el historial si esta trasformación ya se aplico y si es asi no la aplica otra vez y solo retorna la imagen.
+
+#### History
+El historial es una clase la cual guarda las transformaciones que se le han hecho a cada una de las `MarkImages` activas en el momento.
+Cada `MarkImage` tiene un ID el cual se usa para guardar en un diccionario un conjunto con las referencias de las transformaciones que ya se han aplicado al objeto `MarkImage` con ese ID.
+
+Este objeto es necesario ya que no es eficiente aplicar una misma transformación mas de 1 vez a una `MarkImage` ya que en la mayoría de transformaciones requieren crear multiples imágenes para obtener su resultado asi que es mejor que el programador pre calcule con exactitud como quiere que sea el resultado final de su transformación.
+#### Como usarla
+```py
+from transforms import out_shadow
+mark_image.set_transform(
+    out_shadow,
+    blur=10,
+    radius=20,
+    shadow_color=(0,0,0,150),
+    offset=(0,100)
+)
+mark_image.apply_transform()
+```
+Es importante no llamar la función de transformación al momento de usar el metodo `set_transform` ya que se usa ese referencia para después ser llamada y actualizar el historial.
+
 ## MarkStack
 Esta clase puede juntar y administrar una serie de `MarkImage` (en una tupla).
 
