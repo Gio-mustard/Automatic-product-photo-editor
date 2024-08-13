@@ -4,7 +4,7 @@ import classes
 from PIL import Image
 from scaling_funtions import scaling_object
 from datetime import time
-from transforms import rotate
+from transforms import *
 # Create your tests here.
 # * No son test bien hechos, pido perdón...
 # ! test de MarkImage
@@ -23,8 +23,11 @@ background = Image.new(
     color=(252, 195, 38,255)
 )
 mark_image.set_transform(
-    rotate,
-    deg=18
+    out_shadow,
+    blur=10,
+    radius=20,
+    shadow_color=(0,0,0,150),
+    offset=(0,100)
 )
 mark_image.apply_transform()
 mark_image_2 = mark_image.copy()
@@ -43,7 +46,7 @@ mark_stack = classes.MarkStack(
     images=images,
     background=background,
     padding=0,
-    gap=0,
+    gap=-100,
     alignment_in = {StackOptions.VERTICAL},
     direction=StackOptions.HORIZONTAL,
     scaling_function=scaling_object.contain
