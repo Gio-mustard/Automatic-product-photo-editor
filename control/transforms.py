@@ -16,7 +16,7 @@ def __check_history(im,id_mark_image,transform)->Image.Image|None:
 def default(im:Image.Image,**kwargs)->Image.Image:
     return im
 
-def rotate(im:Image.Image,id_mark_image:str,deg:int=0,crop:bool=False,max_quality:bool=True,fillcolor:tuple = None):
+def rotate(im:Image.Image,id_mark_image:str,deg:int=0,crop:bool=False,max_quality:bool=True,fillcolor:tuple = None,force:bool=False):
     """
     !IMPORTANTE
     No es necesario y no deberías pasar los siguiente parámetros...
@@ -24,8 +24,9 @@ def rotate(im:Image.Image,id_mark_image:str,deg:int=0,crop:bool=False,max_qualit
     @id_mark_image
     Estos se pasaran de forma automática cuando se llame el método para hacer la trasformación
     """
-    returned = __check_history(im,id_mark_image,rotate)
-    if isinstance(returned,Image.Image):return returned
+    if not force:
+        returned = __check_history(im,id_mark_image,rotate)
+        if isinstance(returned,Image.Image):return returned
     return im.rotate(
         angle=deg,
         resample=Resampling.BICUBIC if max_quality else Resampling.NEAREST,
@@ -41,7 +42,7 @@ def __get_alignments(horizontal:bool,vertical:bool,image_size:tuple,canvas_size:
         return (horizontal_alignment,vertical_alignment)
 
 
-def out_shadow(im:Image.Image,id_mark_image:str,shadow_color:tuple=(0,0,0,255),crop:bool=False,radius:int=30,blur:int=5,offset:tuple=(0,0))->Image.Image:
+def out_shadow(im:Image.Image,id_mark_image:str,shadow_color:tuple=(0,0,0,255),crop:bool=False,radius:int=30,blur:int=5,offset:tuple=(0,0),force:bool=False)->Image.Image:
     """
     !IMPORTANTE
     No es necesario y no deberías pasar los siguiente parámetros...
@@ -49,8 +50,9 @@ def out_shadow(im:Image.Image,id_mark_image:str,shadow_color:tuple=(0,0,0,255),c
     @id_mark_image
     Estos se pasaran de forma automática cuando se llame el método para hacer la trasformación
     """
-    returned = __check_history(im,id_mark_image,out_shadow)
-    if isinstance(returned,Image.Image):return returned
+    if not force:
+        returned = __check_history(im,id_mark_image,out_shadow)
+        if isinstance(returned,Image.Image):return returned
     width,height = im.size
     # create a copy of main image but coloring all black pixels
     shadow = Image.composite(
