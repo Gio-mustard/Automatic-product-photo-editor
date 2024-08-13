@@ -46,9 +46,18 @@ mark_stack = classes.MarkStack(
     images=images,
     background=background,
     padding=0,
-    gap=-100,
+    gap=-200,
     alignment_in = {StackOptions.VERTICAL},
     direction=StackOptions.HORIZONTAL,
     scaling_function=scaling_object.contain
 )
-mark_stack.make_stack().show(time().minute)
+def callback(im:Image.Image,id:str,index:int,num_images:int)->Image.Image:
+    image_transformed = im
+    if index == 0:
+        image_transformed = rotate(im,id,25,True,force=True)
+    elif index == num_images-1:
+        image_transformed = rotate(im,id,-25,True,force=True)
+    return image_transformed
+
+
+mark_stack.make_stack(callback).show(time().minute)
