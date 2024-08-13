@@ -49,7 +49,7 @@ def out_shadow(im:Image.Image,id_mark_image:str,shadow_color:tuple=(0,0,0,255),c
     @id_mark_image
     Estos se pasaran de forma automática cuando se llame el método para hacer la trasformación
     """
-    returned = __check_history(im,id_mark_image,rotate)
+    returned = __check_history(im,id_mark_image,out_shadow)
     if isinstance(returned,Image.Image):return returned
     width,height = im.size
     # create a copy of main image but coloring all black pixels
