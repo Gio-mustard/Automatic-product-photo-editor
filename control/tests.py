@@ -27,7 +27,8 @@ mark_image.set_transform(
     blur=10,
     radius=20,
     shadow_color=(0,0,0,150),
-    offset=(0,100)
+    offset=(0,100),
+    parametro_sin_uso=None
 )
 mark_image.apply_transform()
 mark_image_2 = mark_image.copy()
