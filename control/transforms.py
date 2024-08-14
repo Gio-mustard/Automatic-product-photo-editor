@@ -13,17 +13,22 @@ def __check_history(im,id_mark_image,transform)->Image.Image|None:
             transform=transform
         )
 
+def __print_kwargs_alert_if_exist(transform,kwargs):
+    if not kwargs == {}:print("-"*8,f'Los parámetros {kwargs=} de la transformación {transform=} NO ESTÁN SIENDO USADOS REVISA TU ALGORITMO!','-'*8,sep="\n")
+
 def default(im:Image.Image,**kwargs)->Image.Image:
     return im
 
-def rotate(im:Image.Image,id_mark_image:str,deg:int=0,crop:bool=False,max_quality:bool=True,fillcolor:tuple = None,force:bool=False):
+def rotate(im:Image.Image,id_mark_image:str,deg:int=0,crop:bool=False,max_quality:bool=True,fillcolor:tuple = None,force:bool=False,**kwargs):
     """
-    !IMPORTANTE
-    No es necesario y no deberías pasar los siguiente parámetros...
-    @im
-    @id_mark_image
-    Estos se pasaran de forma automática cuando se llame el método para hacer la trasformación
+    !IMPORTANTE\n
+    No es necesario y no deberías pasar los siguiente parámetros...\n
+    @im\n
+    @id_mark_image\n
+    Estos se pasaran de forma automática cuando se llame el método para hacer la trasformación\n
+    Los @kwargs no tienen (por ahora) funcionalidad pero es necesario para no tener errores de argumentos en las transformaciones.
     """
+    __print_kwargs_alert_if_exist(rotate,kwargs)
     if not force:
         returned = __check_history(im,id_mark_image,rotate)
         if isinstance(returned,Image.Image):return returned
@@ -42,14 +47,16 @@ def __get_alignments(horizontal:bool,vertical:bool,image_size:tuple,canvas_size:
         return (horizontal_alignment,vertical_alignment)
 
 
-def out_shadow(im:Image.Image,id_mark_image:str,shadow_color:tuple=(0,0,0,255),crop:bool=False,radius:int=30,blur:int=5,offset:tuple=(0,0),force:bool=False)->Image.Image:
+def out_shadow(im:Image.Image,id_mark_image:str,shadow_color:tuple=(0,0,0,255),crop:bool=False,radius:int=30,blur:int=5,offset:tuple=(0,0),force:bool=False,**kwargs)->Image.Image:
     """
-    !IMPORTANTE
-    No es necesario y no deberías pasar los siguiente parámetros...
-    @im
-    @id_mark_image
-    Estos se pasaran de forma automática cuando se llame el método para hacer la trasformación
+    !IMPORTANTE\n
+    No es necesario y no deberías pasar los siguiente parámetros...\n
+    @im\n
+    @id_mark_image\n
+    Estos se pasaran de forma automática cuando se llame el método para hacer la trasformación\n
+    Los @kwargs no tienen (por ahora) funcionalidad pero es necesario para no tener errores de argumentos en las transformaciones.
     """
+    __print_kwargs_alert_if_exist(out_shadow,kwargs)
     if not force:
         returned = __check_history(im,id_mark_image,out_shadow)
         if isinstance(returned,Image.Image):return returned
