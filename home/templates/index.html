@@ -1,11 +1,34 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Monoton&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{%static 'general.css'%}">
+    <link rel="stylesheet" href="{%static 'home.css'%}">
+    <title>home</title>
 </head>
 <body>
-    Hello world!
+    <aside id="img-home-container">
+        <img src="{% static 'img/me.png' %}" alt="" id="img-home">
+    </aside>
+    <main id="home-container">
+        <section id="section-title">
+            <h1>Auto Photo Stacker</h1>
+            <img src="{% static "img/camisetas.png" %}">
+            <h2>Image Editing Tool</h2>
+        </section>
+        <section>
+            <button id="btn-start">Start</button>
+        </section>
+        <footer>
+            <h3>By: Gio Mustard</h3>
+            <hr>
+            <h6>mssm011009@gmail.com</h6>
+        </footer>
+    </main>
 </body>
 </html>
