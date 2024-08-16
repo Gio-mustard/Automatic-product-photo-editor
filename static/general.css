@@ -1,0 +1,27 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: "Montserrat", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: normal;
+    font-style: normal;
+    color: var(--text);
+}
+h1{
+    font-family: "Monoton", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+button{
+    background-color: var(--button-grey);
+    padding: 1vh 2vh;
+    border-radius: 2vh;
+    box-shadow: 0 .5vh 1vh -.5vh var(--shadow);
+    border: 0;
+    
+}
+button:active{
+    box-shadow: none;
+    transform: translateY(.5vh);
+}
