@@ -16,8 +16,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path,include
-
+from . import rutes_constants as rutes
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path("",include("home.urls"))
+    path(rutes.HOME,include("home.urls")),
+    path(rutes.ABOUT_ME, include("aboutme.urls")),
+    path(rutes.MARK_EDITOR, include("photoeditor.urls"))
 ]
