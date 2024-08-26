@@ -28,7 +28,13 @@ button{
     border-radius: 2vh;
     box-shadow: 0 .5vh 1vh -.5vh var(--shadow);
     border: 0;
-    
+    user-select: none;
+}
+button.green{
+    background-color: var(--button-green);
+}
+button.red{
+    background-color: var(--button-red);
 }
 button:active{
     box-shadow: none;

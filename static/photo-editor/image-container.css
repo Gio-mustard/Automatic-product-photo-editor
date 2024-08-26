@@ -1,0 +1,27 @@
+#image-container{
+    padding: 3vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1vh;
+}
+hr{
+    width: 100%;
+}
+#mark-result{
+    width: 100%;
+    height: 50vh;
+    border-radius: 2vh;
+    box-shadow: inset 0 0 1vh var(--shadow);
+}
+/* 
+Esta es el slider que guarda las imágenes subidas al stack
+*/
+#images-view{
+    width: 100%;
+    height: 25vh;
+    box-shadow: 0 0 1vh var(--shadow);
+    border-radius: 2vh;
+    background-color: #87A1F9;
+}

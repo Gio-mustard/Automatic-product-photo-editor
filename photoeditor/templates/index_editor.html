@@ -1,18 +1,42 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% include "imports.html" %}
+    <link rel="stylesheet" href="{% static 'header.css' %}">
+    <link rel="stylesheet" href="{% static 'footer.css' %}">
+    <link rel="stylesheet" href="{% static 'photo-editor/main.css' %}">
+    <link rel="stylesheet" href="{% static 'photo-editor/image-container.css' %}">
     <title>photo editor</title>
 </head>
 <body>
-    <nav>
-        <a href="/">Home</a>
-        <a href="/editor">Editor</a>
-        <a href="/aboutme">About me</a>
-    </nav>
-    <h1>
-        photo editor
-    </h1>
+    {% include "header.html" %}
+    <main id="main-container">
+        <aside id="options-aside">
+            <button class='green'>Upload Image</button>
+            <div id="drop-image">
+                <img src="{% static 'img/drop-ic.png' %}">
+                <span>drop your image here</span>
+            </div>
+            <button>Background Color</button>
+            <button>Adjust padding</button>
+            <button class="red">Switch to advance mode</button>
+        </aside>
+
+        <article id="image-container">
+            <div id="mark-result">
+
+            </div>
+            <hr>
+            <div id="images-view">
+
+            </div>
+        </article>
+    </main>
+
+    
+    {% include "footer.html" %}
 </body>
 </html>
