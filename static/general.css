@@ -46,3 +46,7 @@ button > a{
     font-size: inherit;
     text-decoration: none;
 }
+/* clases generales usadas en cualquier elemento */
+.no-display{
+    display: none !important;
+}
