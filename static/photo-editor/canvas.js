@@ -1,17 +1,33 @@
+/*
+! CANVAS
+Es el recuadro donde estará la imagen edita final, al canvas le vas a apilar las configuraciones del panel de la izquierda de la pantalla, osea puedes cambiar su...
+* background color
+* padding
+* size [width, height]
+El canvas tiene una abstracción que es el objeto `mark_settings` ese sera el objeto que se usara para hacer la petición de la edición de la imagen, este objeto actualiza sus propiedades automáticamente y el algoritmo para que esto sea asi esta en este archivo.
+*/
+
 const mark_settings = {
     padding:0,
     size:null,
     backgroundColor:null,
 }
-
+/*  
+!
+Esta variable se usa para sub escalar el size del canvas y su padding (para que no se sobre salgan de la pantalla)
+su funcionamiento es simple, solo es el divisor para el width, height y padding.
+*/
+let sub_scale_constant = 4;
 const canvas = document.getElementById('canvas');
 // canvas size
-const canvas_sizes = [...document.getElementsByClassName('canvas-size')];
+const canvas_sizes = [...document.getElementsByClassName('canvas-size')]; // los radio buttons con los sizes predeterminados.
 const update_size =(raw_size)=>{
+    // formato del size -> size:widthxheight -> size:1920x1080
+    // size es una propiedad de cada etiqueta radio button que se use para seleccionar un size para el canvas(la única excepción es el custom size pero se transforma para usar esta función).
     const [width,height] = raw_size.split(":")[1].split('x')
     mark_settings.size = `${width}x${height}`
-    canvas.style.width = `${width/4}px`
-    canvas.style.height= `${height/4}px`
+    canvas.style.width = `${width/sub_scale_constant}px`
+    canvas.style.height= `${height/sub_scale_constant}px`
 }
 const default_size = document.querySelector('.canvas-size:checked');
 update_size(
@@ -23,7 +39,7 @@ const [custom_width,custom_height] = [
 ]
 const custom_size_inputs = document.getElementById('custom-size-inputs');
 const handle_update_custom_size = (e)=>{
-    if(!(e.target == custom_width || e.target == custom_height)) return;
+    if(!(e.target == custom_width || e.target == custom_height)) return;// * no es tan necesaria pero igual quiero validarlo...
     update_size(
         `size:${custom_width.value}x${custom_height.value}`
     );
@@ -32,9 +48,12 @@ const handle_update_custom_size = (e)=>{
     input.addEventListener('input', handle_update_custom_size);
 })
 canvas_sizes.forEach((element)=>{
-    element.addEventListener('change',e=>{
-       update_size(e.target.getAttribute('size'))
-       if (e.target.id=="custom-size"){
+    element.addEventListener('change',radio_button=>{
+       update_size(radio_button.target.getAttribute('size'))
+       /*
+       Este algoritmo es para mostrar u ocultar el panel para poner el custom size.
+       */
+       if (radio_button.target.id=="custom-size"){
         custom_size_inputs.className = ''
        }
        else{
@@ -48,10 +67,13 @@ canvas_sizes.forEach((element)=>{
 //padding
 const update_padding = (raw_padding)=>{
     mark_settings.padding = raw_padding
-    canvas.style.padding = `${mark_settings.padding/4}px`
+    canvas.style.padding = `${mark_settings.padding/sub_scale_constant}px`
     current_padding.innerText = `${mark_settings.padding}px`
 }
 const btn_adjust_padding = document.getElementById("btn-adjust-padding");
+/*
+El botón muestra u oculta el panel de control (padding_settings) para ajustar el padding, solo tiene esa funcionalidad.
+*/
 const padding_range = document.getElementById("padding-range");
 const padding_settings = document.getElementById("adjust-padding-controls");
 const current_padding = document.getElementById("current-padding");

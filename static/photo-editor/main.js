@@ -1,3 +1,6 @@
+/*
+Este script se encarga de controlar la entrada y salidas de la imágenes al stack, todo se resume en que los objetos `PreviewImage` que estén en el array `images` son las imágenes que están listas para ser enviadas a editar al servidor.
+*/
 // inicializaron del script
 globalThis.imagesInStack = 0
 
