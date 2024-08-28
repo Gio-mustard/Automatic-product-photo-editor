@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'home',
     'aboutme',
-    'photoeditor'
+    'photoeditor',
+    'rest_framework'
 ]
 
 MIDDLEWARE = [

@@ -21,5 +21,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path(rutes.HOME,include("home.urls")),
     path(rutes.ABOUT_ME, include("aboutme.urls")),
-    path(rutes.MARK_EDITOR, include("photoeditor.urls"))
+    path(rutes.MARK_EDITOR, include("photoeditor.urls")),
+    path(rutes.API_REST,include('api_rest.urls'))
 ]
