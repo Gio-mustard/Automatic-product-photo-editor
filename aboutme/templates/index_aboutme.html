@@ -1,18 +1,25 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% include "imports.html" %}
+    <link rel="stylesheet" href="{% static 'header.css' %}">
+    <link rel="stylesheet" href="{% static 'footer.css' %}">
+    <link rel="stylesheet" href="{% static 'aboutme/main.css' %}">
     <title>about me</title>
 </head>
 <body>
-    <nav>
-        <a href="/">Home</a>
-        <a href="/editor">Editor</a>
-        <a href="/aboutme">About me</a>
-    </nav>
-    <h1>
-        about me
-    </h1>
+    {% include "header.html" %}
+    <main id="main-container">
+        <img src="{% static 'img/me.png' %}" id="background-image">
+        <article id='information'>
+            <h2>Hi! i'm</h2>
+            <h1>Gio Mustard</h1>
+            <p>I'm backend developer</p>
+        </article>
+    </main>
+    {% include "footer.html" %}
 </body>
 </html>
