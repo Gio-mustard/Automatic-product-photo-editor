@@ -5,28 +5,35 @@
     justify-content: space-between;
     align-items: center;
     gap: 1vh;
+    overflow: hidden !important;
 }
 hr{
     width: 100%;
 }
 #mark-result{
     width: 100%;
+    max-width: 100%;
     height: 60vh;
     border-radius: 2vh;
     box-shadow: inset 0 0 1vh var(--shadow);
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 /* 
 Esta es el slider que guarda las imágenes subidas al stack
 */
 #images-view{
     width: 100%;
+    max-width: 100%;
     height: 15vh;
     /* box-shadow: 0 0 1vh var(--shadow); */
     border-radius: 2vh;
     display: flex;
     justify-content: flex-start;
     align-items: stretch;
-    overflow: hidden;
+    overflow-y: hidden;
+    overflow-x: auto !important;
     gap: 1vh;
 }
 .image-in-view{
@@ -65,4 +72,26 @@ Esta es el slider que guarda las imágenes subidas al stack
 .btn-delete-from-view > img{
     filter: drop-shadow(0 0 2vh var(--shadow));
     height: 50%;
+}
+@media only screen and (max-width: 767px) and (orientation: portrait) {
+    #mark-result{
+        height: 50%;
+    }
+    #images-view{
+        height: 20%;
+        max-height: 20vh;
+    }
+    .btn-delete-from-view{
+        max-width: 5vh;
+        max-height: 5vh;
+        top: 0;
+        left: 0;
+        opacity: 1;
+    }
+    .btn-delete-from-view > img{
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: contain;
+        transform: scale(3);
+    }
 }

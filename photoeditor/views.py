@@ -1,5 +1,8 @@
 from django.shortcuts import render
-
+from .default_canvas_sizes import sizes
 # Create your views here.
 def editor(request):
-    return render(request,"index_editor.html")
+    context = {
+        "canvas_sizes":sizes
+    }
+    return render(request,"index_editor.html",context)

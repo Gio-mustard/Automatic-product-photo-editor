@@ -5,33 +5,84 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     {% include "imports.html" %}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/themes/classic.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/pickr.min.js"></script>
     <link rel="stylesheet" href="{% static 'header.css' %}">
     <link rel="stylesheet" href="{% static 'footer.css' %}">
     <link rel="stylesheet" href="{% static 'photo-editor/main.css' %}">
     <link rel="stylesheet" href="{% static 'photo-editor/image-container.css' %}">
+    <link rel="stylesheet" href="{% static 'photo-editor/canvas.css' %}">
+    <link rel="stylesheet" href="{% static 'photo-editor/modal-upload-image.css' %}">    
     <title>photo editor</title>
 </head>
 <body>
     {% include "header.html" %}
     <main id="main-container">
+        <section id="modal-upload-image" class='hidden'>
+            <b id='count-upload-images'></b>
+            <img src="{% static "img/me.png" %}" id="modal-preview">
+            <h3 id="modal-filename">title.png</h3>
+            <h2>Se subio con exito !</h2>
+        </section>
         <aside id="options-aside">
-            <button class='green'>Upload Image</button>
+            <button id='btn-upload-image' class='green'>Upload Image</button>
             <div id="drop-image">
                 <img src="{% static 'img/drop-ic.png' %}">
                 <span>drop your image here</span>
             </div>
-            <button>Background Color</button>
-            <button>Adjust padding</button>
-            <button class="red">Switch to advance mode</button>
+            <div style="display: flex;aling-items:center;gap:2vh;">
+                <button id='btn-bg-color'>Background Color</button>
+                <span>Background Color</span>
+            </div>
+            <div id="adjust-padding-container">
+                <button id="btn-adjust-padding">Adjust padding</button>
+                <div id='adjust-padding-controls' class='hidden'>
+
+                    <input type="range" name="padding" id="padding-range" value="0" min='0' max='200' step='10'>
+                    <div id="padding-values">
+                        <span>min:0</span>
+                        <span id='current-padding'>npx</span>
+                        <span>max:200</span>
+                    </div>
+                </div>
+            </div>
+            <section id='size-canvas-container'>
+                <h3>Select canvas size</h3>
+                <div id='default-sizes'>
+                    {% for size in canvas_sizes %}
+                        <div class='canvas-sizes'>
+                            <input class="canvas-size" type="radio" name="size-canvas" id="size:{{size.width}}x{{size.height}}" size="size:{{size.width}}x{{size.height}}" checked>
+                            <label for="size:{{size.width}}x{{size.height}}">{{size.width}}x{{size.height}}</label>
+                        </div>
+                    {% endfor %}
+                </div>
+                <hr>
+                <div id='custom-size-container'>
+                    <div class='canvas-sizes'>
+                        <input class="canvas-size" type="radio" name="size-canvas" id='custom-size' size="size:100x100">
+                        <label for="custom-size">custom</label>
+                    </div>
+                    <div id='custom-size-inputs' class='hidden'>
+                        <input type="number" name="width" id="width-canvas" step='50' min="100" value='100'>
+                        <span>x</span>
+                        <input type="number" name="height" id="height-canvas" step='50' min="100" value='100'>
+                    </div>
+                </div>
+            </section>
+            {% comment %} <button class="red">Switch to advance mode</button> {% endcomment %}
         </aside>
 
         <article id="image-container">
             <div id="mark-result">
+                <section id="canvas">
+                    <div id="canvas-padding-preview">
 
+                    </div>
+                </section>
             </div>
             <hr>
             <div id="images-view">
-                <input type="file" name="images-input" id="images-input" class="no-display">
+                <input type="file" name="images-input" id="images-input" class="no-display" accept="image/*" multiple>
                 
             </div>
         </article>
@@ -39,5 +90,9 @@
 
     
     {% include "footer.html" %}
+    <script src="{% static 'photo-editor/main.js' %}"></script>
+    {% comment %} <script src="{% static 'photo-editor/color_picker.js' %}"></script> {% endcomment %}
+    <script src="{% static 'photo-editor/drop-image.js' %}"></script>
+    <script src="{% static 'photo-editor/canvas.js' %}"></script>
 </body>
 </html>
