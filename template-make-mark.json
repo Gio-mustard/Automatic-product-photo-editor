@@ -4,8 +4,13 @@
     "watermark":"bytes||string",
     "make_stack":true,
     "stack_options":{
-        "background-color":"#000",
-        "resolution":"1920x1080"
+        "background-color":[255,255,255,255],
+        "resolution":"1920x1080",
+        "padding":100,
+        "gap":50,
+        "alignment":["horizontal","vertical"],
+        "scaling":"contain",
+        "direction":"row"
     },
     "remove_bg":true,
     "remove_bg_options":{
