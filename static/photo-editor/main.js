@@ -79,8 +79,7 @@ const remove_image = (id) => {
     images = images.filter(image => image.id != id)
     __update_images_view()
 }
-const _show_images = async () => {
-    console.log(images)
-}
+window.remove_image = remove_image
 const btn_upload_image = document.getElementById("btn-upload-image");
 btn_upload_image.onclick = () => input_images.click()
+export {images}

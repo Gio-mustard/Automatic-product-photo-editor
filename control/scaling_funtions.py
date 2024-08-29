@@ -1,4 +1,4 @@
-from constants import StackOptions
+from . constants import StackOptions
 from PIL import Image
 """
 Para no tener que calcular aquí el gap y el padding podría

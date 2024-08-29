@@ -9,23 +9,28 @@ El canvas tiene una abstracción que es el objeto `mark_settings` ese sera el ob
 
 const mark_settings = {
     padding:0,
-    size:null,
-    backgroundColor:null,
+    resolution:null,
+    background_color:"rgba(0,0,0,0)",
+    gap:0,
+    padding:0,
+    direction:'row',
+    alignment:['vertical'],
+    scaling:'contain'
 }
 /*  
 !
-Esta variable se usa para sub escalar el size del canvas y su padding (para que no se sobre salgan de la pantalla)
+Esta variable se usa para sub escalar el resolution del canvas y su padding (para que no se sobre salgan de la pantalla)
 su funcionamiento es simple, solo es el divisor para el width, height y padding.
 */
 let sub_scale_constant = 4;
 const canvas = document.getElementById('canvas');
-// canvas size
+// canvas resolution
 const canvas_sizes = [...document.getElementsByClassName('canvas-size')]; // los radio buttons con los sizes predeterminados.
 const update_size =(raw_size)=>{
-    // formato del size -> size:widthxheight -> size:1920x1080
-    // size es una propiedad de cada etiqueta radio button que se use para seleccionar un size para el canvas(la única excepción es el custom size pero se transforma para usar esta función).
+    // formato del size -> resolution:widthxheight -> resolution:1920x1080
+    // resolution es una propiedad de cada etiqueta radio button que se use para seleccionar un resolution para el canvas(la única excepción es el custom resolution pero se transforma para usar esta función).
     const [width,height] = raw_size.split(":")[1].split('x')
-    mark_settings.size = `${width}x${height}`
+    mark_settings.resolution = `${width}x${height}`
     canvas.style.width = `${width/sub_scale_constant}px`
     canvas.style.height= `${height/sub_scale_constant}px`
 }
@@ -66,7 +71,7 @@ canvas_sizes.forEach((element)=>{
 
 //padding
 const update_padding = (raw_padding)=>{
-    mark_settings.padding = raw_padding
+    mark_settings.padding = parseInt(raw_padding)
     canvas.style.padding = `${mark_settings.padding/sub_scale_constant}px`
     current_padding.innerText = `${mark_settings.padding}px`
 }
@@ -93,6 +98,33 @@ padding_range.addEventListener('input', (e)=>{
     update_padding(e.target.value)
 })
 
+//gap
+const update_gap = (raw_gap)=>{
+    mark_settings.gap = parseInt(raw_gap)
+    current_gap.innerText = `${mark_settings.gap}px`
+}
+const btn_adjust_gap = document.getElementById("btn-adjust-gap");
+/*
+El botón muestra u oculta el panel de control (gap_settings) para ajustar el gap, solo tiene esa funcionalidad.
+*/
+const gap_range = document.getElementById("gap-range");
+const gap_settings = document.getElementById("adjust-gap-controls");
+const current_gap = document.getElementById("current-gap");
+
+
+let is_show_gap_controls = false;
+btn_adjust_gap.onclick = ()=>{
+    is_show_gap_controls ? (
+        gap_settings.className ='hidden'
+    ):
+    (
+        gap_settings.className =''
+    )
+    is_show_gap_controls = !is_show_gap_controls
+}
+gap_range.addEventListener('input', (e)=>{
+    update_gap(e.target.value)
+})
 
 
 // ! background color
@@ -122,5 +154,6 @@ pickr.on('change',(color)=>{
     
     background.style.background = `linear-gradient(to left,  ${selectedColor}, #E6F6EA,${selectedColor})`;
     canvas.style.backgroundColor = color.toHEXA().toString();
-    mark_settings.backgroundColor = color.toRGBA().toString();
+    mark_settings.background_color = color.toRGBA().toString();
 })
+export {mark_settings}
