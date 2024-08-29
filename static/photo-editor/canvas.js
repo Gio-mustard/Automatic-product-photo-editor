@@ -11,6 +11,7 @@ const mark_settings = {
     padding:0,
     size:null,
     backgroundColor:null,
+    gap:null,
 }
 /*  
 !
@@ -93,6 +94,33 @@ padding_range.addEventListener('input', (e)=>{
     update_padding(e.target.value)
 })
 
+//gap
+const update_gap = (raw_gap)=>{
+    mark_settings.gap = raw_gap
+    current_gap.innerText = `${mark_settings.gap}px`
+}
+const btn_adjust_gap = document.getElementById("btn-adjust-gap");
+/*
+El botón muestra u oculta el panel de control (gap_settings) para ajustar el gap, solo tiene esa funcionalidad.
+*/
+const gap_range = document.getElementById("gap-range");
+const gap_settings = document.getElementById("adjust-gap-controls");
+const current_gap = document.getElementById("current-gap");
+
+
+let is_show_gap_controls = false;
+btn_adjust_gap.onclick = ()=>{
+    is_show_gap_controls ? (
+        gap_settings.className ='hidden'
+    ):
+    (
+        gap_settings.className =''
+    )
+    is_show_gap_controls = !is_show_gap_controls
+}
+gap_range.addEventListener('input', (e)=>{
+    update_gap(e.target.value)
+})
 
 
 // ! background color

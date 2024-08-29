@@ -142,14 +142,14 @@ body{
     padding: 0;
 }
 /* padding settings */
-#adjust-padding-container{
+#adjust-padding-container,#adjust-gap-container{
     width: 100%;
     height: auto;
     display: flex;
     flex-direction: column;
     gap:1vh;
 }
-#adjust-padding-controls{
+#adjust-padding-controls,#adjust-gap-controls{
     background-color: var(--background-grey);
     padding: 1vh;
     display: grid;
@@ -160,23 +160,23 @@ body{
     transition: .2s;
     overflow:hidden;
 }
-#adjust-padding-controls.hidden{
+#adjust-padding-controls.hidden,#adjust-gap-controls.hidden{
     height: 0;
     padding: 0;
 }
-#padding-range{
+#padding-range,#gap-range{
     accent-color: var(--button-green);
 }
-#padding-values{
+#padding-values,#gap-values{
     width: 100%;
     height: 100%;
     display: flex;
     justify-content: space-between;
 }
-#padding-values > *{
+#padding-values > *,#gap-values > *{
     color: var(--shadow);
 }
-#current-padding{
+#current-padding,#current-gap{
     color: var(--text);
 }
 /* mobile version
