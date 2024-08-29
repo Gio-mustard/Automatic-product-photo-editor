@@ -41,7 +41,7 @@
                     <input type="range" name="padding" id="padding-range" value="0" min='0' max='200' step='10'>
                     <div id="padding-values">
                         <span>min:0</span>
-                        <span id='current-padding'>npx</span>
+                        <span id='current-padding'>0px</span>
                         <span>max:200</span>
                     </div>
                 </div>
@@ -50,10 +50,10 @@
                 <button id="btn-adjust-gap">Adjust gap</button>
                 <div id='adjust-gap-controls' class='hidden'>
 
-                    <input type="range" name="gap" id="gap-range" value="0" min='0' max='200' step='10'>
+                    <input type="range" name="gap" id="gap-range" value="0" min='-200' max='200' step='20'>
                     <div id="gap-values">
-                        <span>min:0</span>
-                        <span id='current-gap'>npx</span>
+                        <span>min:-200</span>
+                        <span id='current-gap'>0px</span>
                         <span>max:200</span>
                     </div>
                 </div>
@@ -90,7 +90,12 @@
                     <div id="canvas-padding-preview">
 
                     </div>
+                    <img id="canvas-image">
                 </section>
+            </div>
+            <div>
+                <button id='btn-make-stack' class='red'>Make stack!</button>
+                <button id='btn-save-stack'>Save stack</button>
             </div>
             <hr>
             <div id="images-view">
@@ -102,9 +107,10 @@
 
     
     {% include "footer.html" %}
-    <script src="{% static 'photo-editor/main.js' %}"></script>
+    <script type='module' src="{% static 'photo-editor/main.js' %}"></script>
     {% comment %} <script src="{% static 'photo-editor/color_picker.js' %}"></script> {% endcomment %}
-    <script src="{% static 'photo-editor/drop-image.js' %}"></script>
-    <script src="{% static 'photo-editor/canvas.js' %}"></script>
+    <script  src="{% static 'photo-editor/drop-image.js' %}"></script>
+    <script type='module' src="{% static 'photo-editor/canvas.js' %}"></script>
+    <script type='module' src="{% static 'photo-editor/make-stack.js' %}"></script>
 </body>
 </html>
