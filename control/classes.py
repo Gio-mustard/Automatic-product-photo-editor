@@ -2,10 +2,10 @@ from uuid import uuid4
 from rembg import remove
 from PIL import Image, ImageEnhance
 from io import BytesIO
-from constants import StackOptions
-from scaling_funtions import scaling_object
-from transforms import default
-from history import History
+from . constants import StackOptions
+from . scaling_funtions import scaling_object
+from . transforms import default,scale
+from . history import History
 class MarkImage(History): # se hereda solo para incrementar el contador de mark images actuales para nada mas...
     """
     Esta clase encapsula y abstrae los métodos principales de edición automática de imágenes (solo es una imagen)
@@ -24,6 +24,7 @@ class MarkImage(History): # se hereda solo para incrementar el contador de mark 
             initial_image
         )
         self.__image = self.__load_image(initial_image)
+        self.__image = self.__image.convert("RGBA")
         self.__bg_color: tuple
         self.set_bg(bg_color)
         self.id = uuid4()
