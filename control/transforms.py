@@ -1,6 +1,6 @@
 from PIL import Image,ImageFilter
 from PIL.Image import Resampling
-from history import History
+from . history import History
 
 def __check_history(im,id_mark_image,transform)->Image.Image|None:
     if History.has(
@@ -16,7 +16,7 @@ def __check_history(im,id_mark_image,transform)->Image.Image|None:
 def __print_kwargs_alert_if_exist(transform,kwargs):
     if not kwargs == {}:print("-"*8,f'Los parámetros {kwargs=} de la transformación {transform=} NO ESTÁN SIENDO USADOS REVISA TU ALGORITMO!','-'*8,sep="\n")
 
-def default(im:Image.Image,**kwargs)->Image.Image:
+def default(im:Image.Image,*args,**kwargs)->Image.Image:
     return im
 
 def rotate(im:Image.Image,id_mark_image:str,deg:int=0,crop:bool=False,max_quality:bool=True,fillcolor:tuple = None,force:bool=False,**kwargs):
@@ -38,7 +38,15 @@ def rotate(im:Image.Image,id_mark_image:str,deg:int=0,crop:bool=False,max_qualit
         expand=1 if crop else 0,
         fillcolor= fillcolor
     )
-
+def scale(im:Image.Image,id_mark_image,step:int,force:bool=False,**kwargs)->Image.Image:
+    __print_kwargs_alert_if_exist(rotate,kwargs)
+    if not force:
+        returned = __check_history(im,id_mark_image,rotate)
+        if isinstance(returned,Image.Image):return returned
+    new_width,new_height = im.size
+    new_width*=step
+    new_height*=step
+    return im.resize((int(new_width), int(new_height)),Resampling.BICUBIC)
 # ! Hay que mover esto a otro modulo para reutilizarlo en el mark stack
 def __get_alignments(horizontal:bool,vertical:bool,image_size:tuple,canvas_size:tuple)->tuple:
         # return a coordinates for star a drawing
