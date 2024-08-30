@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     {% include "imports.html" %}
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/themes/classic.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/themes/nano.min.css" />
     <script src="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/pickr.min.js"></script>
     <link rel="stylesheet" href="{% static 'header.css' %}">
     <link rel="stylesheet" href="{% static 'footer.css' %}">
@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="{% static 'photo-editor/image-container.css' %}">
     <link rel="stylesheet" href="{% static 'photo-editor/canvas.css' %}">
     <link rel="stylesheet" href="{% static 'photo-editor/modal-upload-image.css' %}">    
+    <link rel="stylesheet" href="{% static 'photo-editor/bg-color-maker.css' %}">
     <title>photo editor</title>
 </head>
 <body>
@@ -30,9 +31,10 @@
                 <img src="{% static 'img/drop-ic.png' %}">
                 <span>drop your image here</span>
             </div>
-            <div style="display: flex;aling-items:center;gap:2vh;">
-                <button id='btn-bg-color'>Background Color</button>
-                <span>Background Color</span>
+            <span>Make a background color</span>
+            <div id="bg-color-maker">
+                <button id='btn-add-bg-color'>+</button>
+
             </div>
             <div id="adjust-padding-container">
                 <button id="btn-adjust-padding">Adjust padding</button>

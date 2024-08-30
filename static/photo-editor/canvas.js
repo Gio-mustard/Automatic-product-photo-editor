@@ -128,32 +128,98 @@ gap_range.addEventListener('input', (e)=>{
 
 
 // ! background color
+const bg_colors = [
 
-const pickr = Pickr.create({
-    el: '#btn-bg-color',
-    theme: 'classic', // o 'monolith', 'nano' , 'classic'
+]
+const btn_add_bg_color = document.getElementById("btn-add-bg-color");
+const max_selectors = 9;
+const bg_color_maker = document.getElementById('bg-color-maker'); // este es el container
 
-    components: {
-      preview: true,
-      opacity: true,
-      hue: true,
-
-      interaction: {
-        hex: true,
-        rgba: true,
-        hsla: true,
-        input: true,
-      }
-    }
-  });
+btn_add_bg_color.onclick = async ()=>{
+    if (max_selectors == bg_colors.length) return
+    const new_bg_color_selector = document.createElement('button');
+    new_bg_color_selector.id = `btn-bg-color-${bg_colors.length}`;
+    bg_color_maker.appendChild(new_bg_color_selector);
+    bg_colors.push({id:new_bg_color_selector.id,color:"rgba(0,0,0,0)"});
+    const new_pickr = Pickr.create({
+        el: `#${new_bg_color_selector.id}`,
+        theme: 'nano', // o 'monolith', 'nano' , 'classic'
+    comparison: false,
+    default:'#FFFFFFFF',
+        components: {
+          preview: false,
+          opacity: true,
+          hue: true,
+    
+          interaction: {
+            hex: true,
+            rgba: false,
+            hsla: false,
+            input: true,
+          }
+        }
+      });
+    new_pickr.on('change',(color)=>{
+        const element  = bg_colors.find((value)=>{
+            return value.id == new_bg_color_selector.id 
+        })
+        element.color = color.toRGBA().toString();
+        new_bg_color_selector.style.backgroundColor = color.toHEXA().toString();
+        update_preview_bg_color();
+    })
+}
 const background = document.getElementById("mark-result");
+function roundRGBA(rgbaString) {
+    // Utilizar una expresión regular para extraer los valores de RGBA
+    const rgbaPattern = /rgba?\(([^)]+)\)/;
+    const match = rgbaString.match(rgbaPattern);
+
+    if (!match) {
+        throw new Error('El formato del string no es válido');
+    }
+
+    // Obtener los valores de RGBA como un array de números
+    const rgbaValues = match[1].split(',').map(value => parseFloat(value.trim()));
+
+    // Redondear los valores de R, G y B
+    const roundedR = Math.round(rgbaValues[0]);
+    const roundedG = Math.round(rgbaValues[1]);
+    const roundedB = Math.round(rgbaValues[2]);
+    const alpha = rgbaValues[3]; // Mantener el valor alpha sin cambios
+
+    // Construir el nuevo string RGBA
+    return `rgba(${roundedR}, ${roundedG}, ${roundedB}, ${alpha})`;
+}
+
+const update_preview_bg_color = () => {
+    if (bg_colors.length == 1){
+        background.style.backgroundColor = bg_colors[0].color
+        canvas.style.backgroundColor = bg_colors[0].color
+    }
+    else{
+        let gradient = 'linear-gradient(to right, '
+        bg_colors.forEach(element => {
+            gradient +=  roundRGBA(element.color) + ' , '
+        })
+        gradient = gradient.slice(0, -2);
+        gradient += ')'
+        console.log(gradient)
+        background.style.background = gradient
+        canvas.style.background = gradient
+    }
+}
+mark_settings.background_color = bg_colors
+/*
+
 pickr.on('change',(color)=>{
     // Obtener el color seleccionado en formato HEXA
     const selectedColor = color.toHEXA().toString();
-
     
-    background.style.background = `linear-gradient(to left,  ${selectedColor}, #E6F6EA,${selectedColor})`;
+    
+    background.style.background = `linear-gradient(to left ${selectedColor})`;
     canvas.style.backgroundColor = color.toHEXA().toString();
     mark_settings.background_color = color.toRGBA().toString();
 })
+*/ 
+window.mark_settings = mark_settings
 export {mark_settings}
