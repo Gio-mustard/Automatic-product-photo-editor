@@ -1,5 +1,7 @@
 :root {
     --shadow:#4533034d;
+    --shadow-green:#2345038c;
+    --shadow-red:#4503038c;
     --text: #453303;
     --button-green: #E3FFB9;
     --button-red: #FE9081;
@@ -26,15 +28,20 @@ button{
     background-color: var(--button-grey);
     padding: 1vh 2vh;
     border-radius: 2vh;
-    box-shadow: 0 .5vh 1vh -.5vh var(--shadow);
+    /* box-shadow: 0 .5vh 1vh -.5vh var(--shadow); */
+    box-shadow: 0 .3vh 0px .05vh var(--shadow);
     border: 0;
     user-select: none;
 }
 button.green{
     background-color: var(--button-green);
+    box-shadow: 0 .3vh 0px .05vh var(--shadow-green);
 }
 button.red{
     background-color: var(--button-red);
+    font-weight: 500;
+    color: #600404;
+    box-shadow: 0 .3vh 0px .05vh var(--shadow-red);
 }
 button:active{
     box-shadow: none;

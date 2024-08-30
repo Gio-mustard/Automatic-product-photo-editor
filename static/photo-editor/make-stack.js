@@ -40,7 +40,9 @@ btn_make_stack.onclick = async () => {
         image_in_canvas.blob = blob;
         image_in_canvas.url = url;
         canvas_image.src = url
-        btn_save_stack.onclick = () => {
+        console.log(btn_save_stack)
+        btn_save_stack.className = "";
+        btn_save_stack.onclick = (e) => {
             const enlaceDescarga = document.createElement('a');
             enlaceDescarga.href = url;
             enlaceDescarga.download = 'contenedor_capturado.png'; // Nombre del archivo de descarga

@@ -21,3 +21,16 @@
     top: 0;
     z-index: 5;
 }
+
+#btn-save-stack{
+    background-color: #fff;
+    transition: .3s;
+    opacity: 1;
+}
+
+#btn-save-stack.not-ready-to-save{
+    box-shadow: none;
+    background-color: transparent;
+    opacity: .5;
+    transform: translateY(.5vh);
+}
