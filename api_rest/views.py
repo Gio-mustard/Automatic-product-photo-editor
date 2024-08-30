@@ -14,6 +14,7 @@ interpreter = Interpreter()
 def make_stack(request:Request)->Response:
     data = {**request.data}
     data = fix_request_types(data)
+    print(data)
     serializer = RequestValidatorSerializer(data = data)
     if not serializer.is_valid():
         # TODO: Hay que quitar este print

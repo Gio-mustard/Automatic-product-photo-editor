@@ -5,6 +5,7 @@ from control.scaling_funtions import scaling_object
 from control.transforms import rotate,scale
 from PIL import Image
 from io import BytesIO
+from . tools import make_image_with_gradient
 class Interpreter:
     def __make_to_mark(self,images:tuple[InMemoryUploadedFile],remove_bg:bool=False)->tuple[MarkImage]:
         mark_images = []
@@ -65,7 +66,18 @@ class Interpreter:
         if middle_index[0]%2 == 0:
             middle_index = [middle_index[0],middle_index[0]-1]
         return tuple(middle_index)
-
+    
+    def __make_background(self,stack_options)->Image.Image:
+        size_background = self.__get_background_size(stack_options)
+        if len(stack_options['background_color'])==1:
+            return Image.new(
+               "RGBA",
+                size=size_background,
+                color=tuple(stack_options['background_color'][0])
+            )
+        else:
+            return make_image_with_gradient(stack_options['background_color'],*size_background)
+        
 
     def make_stack(self,request:dict)->tuple[BytesIO,str]:
         """
@@ -74,16 +86,11 @@ class Interpreter:
         mark_images = self.__make_to_mark(request['images'],request['remove_bg'])
         self.__middle_index = self.__get_middle_indexs(mark_images)
         stack_options = request['stack_options']
-        size_background = self.__get_background_size(stack_options)
         alignment = self.__get_alignments(stack_options)
         direction = self.__get_direction(stack_options)
         scaling_function = self.__get_scaling(stack_options)
         # make stack
-        background = Image.new(
-            "RGBA",
-            size=size_background,
-            color=tuple(stack_options['background_color'])
-        )
+        background = self.__make_background(stack_options)
         mark_stack = MarkStack(
             images=mark_images,
             background=background,

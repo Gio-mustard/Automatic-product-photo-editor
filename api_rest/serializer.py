@@ -3,7 +3,7 @@ from rest_framework import serializers
 required_fields = ('make_stack', 'remove_bg', 'has_watermark')
 
 class StackOptionsSerializer(serializers.Serializer):
-    background_color = serializers.ListField(child=serializers.CharField(),required=True)
+    background_color = serializers.ListField(child=serializers.ListField(),required=True)
     resolution = serializers.CharField(required=True)
     padding = serializers.IntegerField(required=True)
     gap = serializers.IntegerField(required=True)
