@@ -5,10 +5,14 @@ const btn_make_stack = document.getElementById("btn-make-stack");
 const btn_save_stack = document.getElementById("btn-save-stack");
 const canvas_image = document.getElementById("canvas-image");
 const image_in_canvas =  {blob:null,url:null};
-const interpreter_bg_color = (color)=>{
-    const new_color = color.replace("rgba(",'').replace(')','').split(',').map(i=>parseFloat(i))
-    new_color[new_color.length-1] *= 255
-    return new_color.map(i=>parseInt(i))
+const interpreter_bg_color = (colors)=>{
+    const new_colors = [];
+    for (let color_object of colors){
+        const new_color = color_object.color.replace("rgba(",'').replace(')','').split(',').map(i=>parseFloat(i))
+        new_color[new_color.length-1] *= 255
+        new_colors.push(new_color.map(i=>parseInt(i)))
+    }
+    return new_colors;
 }
 btn_make_stack.onclick = async () => {
     const new_settings = {...mark_settings}
