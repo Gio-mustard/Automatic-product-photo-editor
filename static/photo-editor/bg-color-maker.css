@@ -1,0 +1,29 @@
+#bg-color-maker{
+    width: 100%;
+    height: auto;
+    display: grid;
+    grid-template-columns: repeat(6,1fr);
+    grid-auto-rows: 4vh;
+    transition: .5s;
+    gap: 1vh;
+}
+#bg-color-maker>.pcr-button,#btn-add-bg-color{
+    width: 100% !important;
+    height: 100% !important;
+    border-radius: 1vh !important;
+}
+#btn-add-bg-color{
+    background-color:transparent ;
+    box-shadow: none;
+    box-shadow: inset 0 0 1vh var(--shadow);
+    font-size: 3.2vh;
+    font-weight: bold;
+    padding: 0;
+}
+#btn-add-bg-color:active{
+    transform: none;
+    background-color: var(--button-green);
+}
+#bg-color-maker > .pcr-button::after,#bg-color-maker>.pcr-button::before{
+    border-radius: 1vh !important;
+}

@@ -92,5 +92,11 @@ class ScalingFunctions:
     @classmethod
     def cover(cls)->tuple:
         return (cls.__get_cover_options,cls.__cover_scaling)
+    
+    def get_all_scales(self)->tuple[str]:
+        return (
+            'cover',
+            'contain'
+        )
 
 scaling_object = ScalingFunctions()

@@ -20,7 +20,7 @@ La solicitud debe enviarse como un objeto JSON con la siguiente estructura:
   "watermark": <Cadena de texto, opcional>,
   "make_stack": <Booleano>,
   "stack_options": {
-    "background_color": [<Cuarteto de números>],
+    "background_color": [[<Cuarteto de números>],[...]],
     "resolution": <Cadena de texto>,
     "padding": <Entero>,
     "gap": <Entero>,
@@ -104,7 +104,7 @@ Aquí tienes un ejemplo de una solicitud válida:
   "watermark": "Marca de Agua de Ejemplo",
   "make_stack": true,
   "stack_options": {
-    "background_color": [255,0,255,255],
+    "background_color": [[255,0,255,255]],
     "resolution": "1920x1080",
     "padding": 10,
     "gap": 5,
@@ -112,7 +112,11 @@ Aquí tienes un ejemplo de una solicitud válida:
     "scaling": "contain", // cover || initial
     "direction": "row" // column
   },
-  "remove_bg": false
+  "remove_bg": false,
+  "remove_bg_options":{
+    "background_color": [[255,0,255,255]],
+    "hig_detail": true
+  }
 }
 ```
 ## Mensajes de error

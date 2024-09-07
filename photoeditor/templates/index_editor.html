@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     {% include "imports.html" %}
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/themes/classic.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/themes/monolith.min.css" />
     <script src="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/pickr.min.js"></script>
     <link rel="stylesheet" href="{% static 'header.css' %}">
     <link rel="stylesheet" href="{% static 'footer.css' %}">
@@ -13,6 +13,10 @@
     <link rel="stylesheet" href="{% static 'photo-editor/image-container.css' %}">
     <link rel="stylesheet" href="{% static 'photo-editor/canvas.css' %}">
     <link rel="stylesheet" href="{% static 'photo-editor/modal-upload-image.css' %}">    
+    <link rel="stylesheet" href="{% static 'photo-editor/bg-color-maker.css' %}">
+    <link rel="stylesheet" href="{% static 'photo-editor/advance-options.css' %}">
+    {% comment %} ! google icons {% endcomment %}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <title>photo editor</title>
 </head>
 <body>
@@ -25,14 +29,18 @@
             <h2>Se subio con exito !</h2>
         </section>
         <aside id="options-aside">
-            <button id='btn-upload-image' class='green'>Upload Image</button>
-            <div id="drop-image">
+            <div id='aside-top-buttons'>
+                <button id='btn-upload-image' class='green'>Upload Image</button>
+                <button id='btn-open-advance-mode' class='blue'>Open Advance</button>
+            </div>
+            <div id="drop-image" class='drop-section'>
                 <img src="{% static 'img/drop-ic.png' %}">
                 <span>drop your image here</span>
             </div>
-            <div style="display: flex;aling-items:center;gap:2vh;">
-                <button id='btn-bg-color'>Background Color</button>
-                <span>Background Color</span>
+            <span>Make a background color</span>
+            <div id="bg-color-maker">
+                <button id='btn-add-bg-color'>+</button>
+
             </div>
             <div id="adjust-padding-container">
                 <button id="btn-adjust-padding">Adjust padding</button>
@@ -83,6 +91,72 @@
             </section>
             {% comment %} <button class="red">Switch to advance mode</button> {% endcomment %}
         </aside>
+        <aside id='advance-options-aside' class='hidden' >
+            <span>Upload image for background</span>
+            <div id="drop-background" class='drop-section'>
+                <img id='preview-drop-background'>
+                <input type="file" name="background-input" id="background-input" class="no-display" accept="image/*">
+                <img src="{% static 'img/drop-ic.png' %}">
+                <span>drop your image here</span>
+            </div>
+            <span>This will be replace a background color</span>
+            <hr>
+            <span>Settings for each Image</span>
+            <section id='settings-each-image'>
+                <div class='checkbox-container'>
+                    <input type="checkbox" id='remove-background'>
+                    <label for="remove-background">Remove background</label>
+                </div>
+                <div class='checkbox-container'>
+                    <input type="checkbox" id='hig-detail'>
+                    <label for="hig-detail">Hig detail</label>
+                </div>
+                <div class='checkbox-container'>
+                    <input type="checkbox" id='apply-bg-color'>
+                    <label for="apply-bg-color">Apply background color</label>
+                </div>
+                <div id='bg-color-options' class='checkbox-container sub'>
+                    <button id='advance-bg-color'></button>
+                    <span>Background color</span>
+                </div>
+                <hr>
+                <div class='checkbox-container'>
+                    <input type="checkbox" id='has-watermark'>
+                    <label for="has-watermark">Apply wattermark</label>
+                </div>
+                <div id='watermark' class='checkbox-container sub'>
+                    <input id='watermark-field' placeholder='Type here:'/>
+                </div>
+
+            </section>
+            <span>Settings for stack</span>
+            <section id='settings-stack'>
+                <div class='stack-option' id='direction-stack'>
+                    <span>Direction</span>
+                    <button class='selectable bi bi-arrow-right' id='row-direction'></button>
+                    <button class='selectable bi bi-arrow-down active' id='column-direction'></button>
+                </div>
+                <div class='stack-option' id='alignment-stack'>
+                    <span>Alignment</span>
+                    <div id='alignment-controller'>
+                        <button class='selectable alignments-options active' id='top-left-align'></button>
+                        <button class='selectable alignments-options' id='top-center-align'></button>
+                        <button class='selectable alignments-options' id='bottom-left-align'></button>
+                        <button class='selectable alignments-options' id='bottom-center-align'></button>
+                    </div>
+                </div>
+                <div class='stack-option' id='scale-stack'>
+                    <span>Scaling</span>
+                    <hr>
+                    {% for scale in scales %}
+                    <div class='radio-container'>
+                        <input type="radio" id="scale-{{scale}}" name='scale-option' checked>
+                        <label for="scale-{{scale}}" class='scale-label'>{{scale}}</label>
+                    </div>
+                    {% endfor %}
+                </div>
+            </section>
+        </aside>
 
         <article id="image-container">
             <div id="mark-result">
@@ -92,10 +166,11 @@
                     </div>
                     <img id="canvas-image">
                 </section>
+                <img id="micro-canvas-image">
             </div>
             <div>
                 <button id='btn-make-stack' class='red'>Make stack!</button>
-                <button id='btn-save-stack'>Save stack</button>
+                <button id='btn-save-stack' class='not-ready-to-save'>Save stack</button>
             </div>
             <hr>
             <div id="images-view">
@@ -112,5 +187,6 @@
     <script  src="{% static 'photo-editor/drop-image.js' %}"></script>
     <script type='module' src="{% static 'photo-editor/canvas.js' %}"></script>
     <script type='module' src="{% static 'photo-editor/make-stack.js' %}"></script>
+    <script type='module' src="{% static 'photo-editor/advance-mode.js'%}"></script>
 </body>
 </html>

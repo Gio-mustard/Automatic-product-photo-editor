@@ -16,7 +16,6 @@ def make_stack(request:Request)->Response:
     data = fix_request_types(data)
     serializer = RequestValidatorSerializer(data = data)
     if not serializer.is_valid():
-        # TODO: Hay que quitar este print
         print(serializer.errors)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         

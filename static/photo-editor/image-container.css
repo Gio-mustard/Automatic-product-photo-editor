@@ -19,6 +19,7 @@ hr{
     display: flex;
     justify-content: center;
     align-items: center;
+    position: relative;
 }
 /* 
 Esta es el slider que guarda las imágenes subidas al stack
