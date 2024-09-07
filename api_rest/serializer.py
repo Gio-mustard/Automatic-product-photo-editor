@@ -1,5 +1,7 @@
 # myapp/serializers.py
 from rest_framework import serializers
+from django.core.files.uploadedfile import TemporaryUploadedFile,InMemoryUploadedFile
+
 required_fields = ('make_stack', 'remove_bg', 'has_watermark')
 
 class StackOptionsSerializer(serializers.Serializer):
@@ -23,6 +25,8 @@ class RequestValidatorSerializer(serializers.Serializer):
     stack_options = StackOptionsSerializer(required=False)
     remove_bg = serializers.BooleanField(required=True)
     remove_bg_options = RemoveBgOptionsSerializer(required=False)
+    has_background_image = serializers.BooleanField(required=True)
+    background_image = serializers.ListField(required=True)
 
     def validate(self, data):
         # Validar stack_options si make_stack es True
@@ -33,5 +37,13 @@ class RequestValidatorSerializer(serializers.Serializer):
         # Validar remove_bg_options si remove_bg es True
         if 'remove_bg_options' not in data and data['remove_bg'] :
             raise serializers.ValidationError("remove_bg_options is required when remove_bg is true.")
+                
+        if (
+            (data['has_background_image'] == True and 'background_image' in data )
+                and
+                type(data['background_image'][0]) not in [TemporaryUploadedFile,InMemoryUploadedFile]
+                ):
+            raise serializers.ValidationError("background_image is required when has_background_image is true.")
+
         return data
         

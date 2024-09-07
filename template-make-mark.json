@@ -16,5 +16,7 @@
     "remove_bg_options":{
         "background-color":"#fff",
         "hig-detail":false
-    }
+    },
+    "has_background_image":true,
+    "background_image":[]
 }

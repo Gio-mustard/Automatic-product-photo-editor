@@ -51,7 +51,7 @@ def fix_request_types(data:dict)->dict:
         if v[0].isalnum():
             new_data[k] = float(v[0])
         
-        if len(v) == 1:
+        if len(v) == 1 and not k =='background_image':
             new_data[k] = v[0]
 
     return new_data

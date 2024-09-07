@@ -32,7 +32,9 @@ La solicitud debe enviarse como un objeto JSON con la siguiente estructura:
   "remove_bg_options": {
     "background_color": [<Cadena de texto>],
     "hig_detail": <Booleano, opcional>
-  }
+  },
+  "has_background_image":<Booleano>,
+  "background_image":[<Archivo de imagen>]
 }
 ```
 ## Descripción de los Campos
@@ -57,6 +59,16 @@ La solicitud debe enviarse como un objeto JSON con la siguiente estructura:
   - **Tipo**: Booleano  
   - **Requerido**: Sí  
   - **Descripción**: Si es `True`, se eliminará el fondo de las imágenes según la configuración proporcionada en `remove_bg_options`. Si es `True`, el campo `remove_bg_options` se convierte en requerido.
+
+- **has_background_image**:  
+  - **Tipo**: Booleano
+  - **Requerido**: Sí  
+  - **Descripción**: Indica si se usada una imagen como fondo del stack.
+
+- **background_image**:  
+  - **Tipo**: Lista de archivos de imagen
+  - **Requerido**: Sí
+  - **Descripción**: Una lista que contiene una imagen que sera usada como fondo del stack (si has_background_image == true).
 
 ### Campos Opcionales:
 - **watermark**:  
@@ -116,7 +128,9 @@ Aquí tienes un ejemplo de una solicitud válida:
   "remove_bg_options":{
     "background_color": [[255,0,255,255]],
     "hig_detail": true
-  }
+  },
+  "has_background_image":true,
+  "background_image":["image.jpg"]
 }
 ```
 ## Mensajes de error
