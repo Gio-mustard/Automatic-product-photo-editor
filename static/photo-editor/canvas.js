@@ -237,7 +237,7 @@ function roundRGBA(rgbaString) {
 const update_preview_bg_color = () => {
     if (bg_colors.length == 1){
         background.style.backgroundColor = bg_colors[0].color
-        canvas.style.backgroundColor = bg_colors[0].color
+        // canvas.style.backgroundColor = bg_colors[0].color
     }
     else{
         let gradient = 'linear-gradient(to right, '
@@ -246,9 +246,8 @@ const update_preview_bg_color = () => {
         })
         gradient = gradient.slice(0, -2);
         gradient += ')'
-        console.log(gradient)
         background.style.background = gradient
-        canvas.style.background = gradient
+        // canvas.style.background = gradient
     }
 }
 mark_settings.background_color = bg_colors

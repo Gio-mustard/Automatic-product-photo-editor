@@ -112,7 +112,11 @@ Aquí tienes un ejemplo de una solicitud válida:
     "scaling": "contain", // cover || initial
     "direction": "row" // column
   },
-  "remove_bg": false
+  "remove_bg": false,
+  "remove_bg_options":{
+    "background_color": [[255,0,255,255]],
+    "hig_detail": true
+  }
 }
 ```
 ## Mensajes de error

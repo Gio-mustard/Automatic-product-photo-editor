@@ -2,8 +2,10 @@
     --shadow:#4533034d;
     --shadow-green:#2345038c;
     --shadow-red:#4503038c;
+    --shadow-blue:#031d458c;
     --text: #453303;
     --button-green: #E3FFB9;
+    --button-blue:#B9FAFF;
     --button-red: #FE9081;
     --button-grey: #EEEEEE;
     --background-grey: #DDDDDD;
@@ -43,6 +45,26 @@ button.red{
     color: #600404;
     box-shadow: 0 .3vh 0px .05vh var(--shadow-red);
 }
+button.blue{
+    background-color: var(--button-blue);
+    font-weight: 500;
+    box-shadow: 0 .3vh 0px .05vh var(--shadow-blue);
+}
+button.blue{
+    background-color: var(--button-blue);
+    font-weight: 500;
+    box-shadow: 0 .3vh 0px .05vh var(--shadow-blue);
+}
+button.blue{
+    background-color: var(--button-blue);
+    font-weight: 500;
+    box-shadow: 0 .3vh 0px .05vh var(--shadow-blue);
+}
+button.blue{
+    background-color: var(--button-blue);
+    font-weight: 500;
+    box-shadow: 0 .3vh 0px .05vh var(--shadow-blue);
+}
 button:active{
     box-shadow: none;
     transform: translateY(.5vh);
@@ -53,7 +75,61 @@ button > a{
     font-size: inherit;
     text-decoration: none;
 }
+
+button.selectable{
+    box-shadow: none;
+    border-radius: .5vh;
+    background-color: #D9D9D9;
+    transition: .3s;
+}
+button.selectable:hover{
+    background-color: var(--shadow);
+}
+button.selectable.active{
+    background-color: var(--button-green);
+    transform: translateY(-.3vh);
+    box-shadow: 0 .3vh .5vh var(--shadow);
+}
+button.selectable > i{
+    color: var(--text);
+    font-weight: bold;
+    font-size: 2vh;
+}
+
 /* clases generales usadas en cualquier elemento */
 .no-display{
     display: none !important;
+}
+hr{
+    border-color: #d3d2d2;
+    border-style: solid;
+}
+span{
+    color: #7F7F7F;
+}
+:root{
+    --active-color-field:#E3FFB9;
+    --active-border-field:#0D8928;
+    --inactive-color-field:#EEEEEE;
+    --inactive-border-field:#9A9B8A;
+
+}
+input{
+    padding: .5vh 1vh ;
+    border: .4vh solid var(--inactive-border-field);
+    position:relative;
+    background-color: var(--inactive-color-field);
+    border-radius: .4vh;
+    transition: background-color .3s;
+    font-size: 2vh;
+    font-weight: bold;
+    color: var(--shadow-green);
+}
+input::placeholder{
+    color: var(--shadow);
+}
+input:focus{
+    outline: none;
+    background-color: var(--active-color-field);
+    border-color: var(--active-border-field);
 }

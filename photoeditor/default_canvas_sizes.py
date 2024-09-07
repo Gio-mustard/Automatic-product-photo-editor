@@ -16,3 +16,6 @@ sizes = [
         "height":"1080",
     },
 ]
+from control.scaling_funtions import scaling_object
+
+scales = scaling_object.get_all_scales()

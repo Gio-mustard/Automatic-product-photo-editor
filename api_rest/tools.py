@@ -11,7 +11,11 @@ def custom_decoder(dct)->dict:
     # TODO: hay parametrizar la bússqueda para convertir cualquier sub objeto.
     if 'background_color' in dct:
         for index,color in enumerate(dct['background_color']):
-            dct['background_color'][index] = [int(num) for num in color]
+            if type(color) in  (tuple,list):
+                dct['background_color'][index] = [int(num) for num in color]
+            else:
+                dct['background_color'] = [int(num) for num in dct['background_color']]
+                break
     return dct
 
 def json_to_dict(json_string)->dict:
@@ -46,6 +50,9 @@ def fix_request_types(data:dict)->dict:
 
         if v[0].isalnum():
             new_data[k] = float(v[0])
+        
+        if len(v) == 1:
+            new_data[k] = v[0]
 
     return new_data
 

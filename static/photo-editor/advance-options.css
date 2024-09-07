@@ -1,0 +1,242 @@
+#advance-options-aside{
+    height: 100%;
+    background-color: var(--background-white);
+    box-shadow: 0 1vh 1vh var(--shadow);
+    display: flex;
+    flex-direction: column;
+    gap: 2vh;
+    padding: 2vh;
+    overflow-y: hidden;
+    transition: width .5s;
+    width: var(--width-aside);
+    overflow: hidden;
+}
+#advance-options-aside > span{
+    width: 100%;
+    font-size: 1.5vh;
+    text-align: center;
+}
+#advance-options-aside.hidden{
+    width: 0;
+    padding: 0;
+}
+#advance-options-aside> *{
+    opacity: 1;
+    transition: opacity .1s;
+}
+#advance-options-aside.hidden > *{
+    opacity: 0;
+}
+#settings-each-image{
+    width: 100%;
+    height: auto;
+}
+#advance-options-aside > section{
+    background-color: #EEEEEE;
+    border-radius: .5vh;
+    padding: .5vh;
+    gap: 1vh;
+}
+#preview-drop-background{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: .3;
+    background-color: #0000000c;
+    object-fit: cover;
+    border-radius: 1vh;
+}
+#drop-background{
+    position: relative;
+}
+#drop-background::before{
+    content: "+";
+    font-size: 10vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--shadow);
+    backdrop-filter: blur(5px);
+    border-radius: 1vh;
+    transition: opacity .3s;
+    opacity: 0;
+}
+#drop-background:hover::before{
+    opacity: 1;
+}
+
+.checkbox-container,.radio-container{
+    /* height: 5vh; */
+    display: flex;
+    gap: .5vh;
+    align-items: center;
+    accent-color: var(--button-green);
+}
+.checkbox-container>  label:hover,.radio-container >  label:hover{
+    background-color: #0000000c;
+}
+.checkbox-container > input[type="checkbox"]:checked + label,.radio-container  > input[type="radio"]:checked + label {
+    background-color: var(--button-green);
+}
+.checkbox-container.sub{
+    transition:  .3s;
+    height: 0px;
+    padding-left: 2.5vh;
+    overflow: hidden;
+}
+.checkbox-container > label,.radio-container > label{
+    color: #8b8686;
+    padding: .5vh;
+    transition: .3s;
+    cursor: pointer;
+    border-radius: 1vh;
+    user-select: none;
+}
+.checkbox-container > input[type="checkbox"],.radio-container > input[type="radio"] {
+    display: none;
+  }
+  
+  .checkbox-container > label::before {
+    content: "";
+    display: inline-block;
+    width: 3vh; /* Ancho del checkbox */
+    height: 3vh; /* Alto del checkbox */
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: .5vh;
+    vertical-align: bottom;
+    margin-right: 1vh;
+  }
+  
+  .checkbox-container > input[type="checkbox"]:checked + label::before {
+    content: "\2713";
+    color: #09ad7e;
+    background-color: var(--button-green);
+    text-align: center;
+  }
+#watermark-field{
+    max-width: 100%;
+    height: 90%;
+    align-self: center;
+}
+#settings-stack{
+    height: auto;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1vh;
+    overflow: hidden;
+    padding: 1vh !important;
+    justify-content: center;
+}
+
+/* settings for stack */
+.stack-option{
+    width: 12vh;
+    height:8vh;
+    display: flex;
+    flex-wrap: wrap;
+    gap: .5vh;
+    justify-content: center;
+    transition: height .3s;
+}
+.stack-option.contracted{
+    height: auto !important;
+}
+/* direction */
+#direction-stack{
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    grid-template-rows: auto 1fr;
+}
+#direction-stack > span{
+    grid-column: span 2;
+    text-align: center;
+}
+#direction-stack button.selectable{
+    width: 100%;
+    max-width: 100% ;
+    height: 100%;
+    max-height: 100%;
+    font-size: 3vh;
+    font-weight: bold;
+}
+/* alignment */
+#alignment-stack{
+    height: 11vh;
+}
+#alignment-controller{
+    width: 8vh;
+    height: 8vh;
+    background-color: #B2B2B2;
+    border-radius: 1vh;
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    grid-template-rows: repeat(3,1fr);
+    gap: 1vh;
+    align-self: bottom;
+    position: relative;
+    box-shadow: 0 0 .8vh var(--shadow);
+}
+#alignment-controller::after{
+    content: "";
+    position: absolute;
+    top: 49%;
+    height: 1%;
+    width: 100%;
+    left: 0;
+    background-color: #EEEEEE;
+}
+#alignment-controller::before{
+    content: "";
+    position: absolute;
+    left: 49%;
+    width:1%;
+    height: 100%;
+    top: 0;
+    background-color: #EEEEEE;
+}
+#alignment-controller > button.selectable{
+    width: 2vh;
+    height: 2vh;
+    border-radius: 2vh;
+    padding: 0;
+    position: relative;
+    z-index: 5;
+}
+#top-left-align, #top-center-align{
+    top: -.5vh;
+}
+#top-left-align,#bottom-left-align{
+    left: -.5vh;
+}
+#bottom-left-align{
+    grid-column:1/2 ;
+}
+#bottom-center-align{
+    grid-column: 2/3;
+}
+/* scales */
+#scale-stack{
+    min-width: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    height: auto;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 1vh;
+    padding: .2vh;
+    background-color: #0000000c;
+}
+#scale-stack > hr{
+    height: 100%;
+    width: .1vh;
+}

@@ -7,9 +7,9 @@ from PIL import Image
 from io import BytesIO
 from . tools import make_image_with_gradient
 class Interpreter:
-    def __make_to_mark(self,images:tuple[InMemoryUploadedFile],remove_bg:bool=False)->tuple[MarkImage]:
+    def __make_to_mark(self,images:tuple[InMemoryUploadedFile],remove_bg:bool=False,bg_color:tuple=(0,0,0,0))->tuple[MarkImage]:
         mark_images = []
-        bg_color = (0,0,0,0)
+        bg_color = tuple(bg_color)
         for image in images:
             mark_image = MarkImage(
                     initial_image= image.read(),
@@ -35,6 +35,9 @@ class Interpreter:
         return align
     
     def __get_scaling(self,stack_options):
+        if not stack_options['scaling'] in scaling_object.get_all_scales():
+            return scaling_object.initial
+        
         match stack_options['scaling']:
             case 'contain':
                 return scaling_object.contain
@@ -83,14 +86,18 @@ class Interpreter:
         """
         Este método retorna el buffer donde esta guardada la imagen del stack y también retorna su mimetype.
         """
-        mark_images = self.__make_to_mark(request['images'],request['remove_bg'])
+        mark_images = self.__make_to_mark(request['images'],request['remove_bg'],request['remove_bg_options']['background_color'])
         self.__middle_index = self.__get_middle_indexs(mark_images)
         stack_options = request['stack_options']
         alignment = self.__get_alignments(stack_options)
         direction = self.__get_direction(stack_options)
         scaling_function = self.__get_scaling(stack_options)
         # make stack
-        background = self.__make_background(stack_options)
+        if request['has_background_image'] and request['background_image']:
+            background_image:InMemoryUploadedFile = request['background_image'][0]
+            background = Image.open(BytesIO(background_image.read()))
+        else:
+            background = self.__make_background(stack_options)
         mark_stack = MarkStack(
             images=mark_images,
             background=background,

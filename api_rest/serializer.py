@@ -12,13 +12,13 @@ class StackOptionsSerializer(serializers.Serializer):
     direction = serializers.CharField(required=True)
 
 class RemoveBgOptionsSerializer(serializers.Serializer):
-    background_color = serializers.ListField(child=serializers.CharField(),required=True)
+    background_color = serializers.ListField(child=serializers.IntegerField(),required=True)
     hig_detail = serializers.BooleanField(required=False)
 
 class RequestValidatorSerializer(serializers.Serializer):
     images = serializers.ListField(child=serializers.ImageField(), required=True)
     has_watermark = serializers.BooleanField(required=True)
-    watermark = serializers.CharField(required=False, allow_null=True)
+    watermark = serializers.CharField(required=False, allow_null=True,allow_blank=True)
     make_stack = serializers.BooleanField(required=True)
     stack_options = StackOptionsSerializer(required=False)
     remove_bg = serializers.BooleanField(required=True)

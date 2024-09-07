@@ -22,7 +22,27 @@
     z-index: 5;
     border-radius: .5vh;
 }
-
+#micro-canvas-image{
+    position: absolute;
+    width: auto;
+    height: 10vh;
+    top: 0;
+    left: 0;
+    object-fit: cover;
+    object-position: left;
+    transition:  1s;
+    border: .5vh solid #fff;
+    box-shadow: 0 0 1vh var(--shadow);
+    border-radius: 2vh;
+    margin-left: -3vh;
+    display: block;
+    transform: translateX(0);
+    transition: transform 1s;
+}
+#micro-canvas-image.hidden{
+    transform: translateX(-90%);
+    box-shadow: 0 0 1vh var(--button-blue);
+}
 #btn-save-stack{
     background-color: #fff;
     transition: .3s;

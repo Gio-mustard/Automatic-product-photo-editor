@@ -7,7 +7,7 @@
     transition: .5s;
     gap: 1vh;
 }
-.pcr-button,#btn-add-bg-color{
+#bg-color-maker>.pcr-button,#btn-add-bg-color{
     width: 100% !important;
     height: 100% !important;
     border-radius: 1vh !important;
@@ -24,6 +24,6 @@
     transform: none;
     background-color: var(--button-green);
 }
-.pcr-button::after,.pcr-button::before{
+#bg-color-maker > .pcr-button::after,#bg-color-maker>.pcr-button::before{
     border-radius: 1vh !important;
 }
