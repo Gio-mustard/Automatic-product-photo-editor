@@ -96,6 +96,7 @@ class MarkImage(History): # se hereda solo para incrementar el contador de mark 
     def set_transform(self, new_transform,**kwargs):
         self.__transform = (new_transform,kwargs)
         self.transformation_applied = False
+        return self.apply_transform
 
     def apply_transform(self):
         params = self.__transform[1]
@@ -247,7 +248,7 @@ class MarkStack:
             )
         
     # processing stack images
-    def _paste_images(self,transform)->None:
+    def _paste_images(self,transform,main_index)->Image.Image:
         """
         1. verificar padding 
         2. colocar primer imagen (se le aplica el transform si aun no lo tiene)
@@ -258,6 +259,7 @@ class MarkStack:
         previous_coordinates = None
         previous_image_size = None
         num_of_images = len(self._images)
+        images_draw_after = []
         # 2 - 4
         for index,mark_image in enumerate(self._images):
             mark_image:MarkImage
@@ -279,16 +281,31 @@ class MarkStack:
                 has_vertical=StackOptions.VERTICAL in self.__alignment_in
             )
             coordinates = self.__get_coordinates(previous_coordinates,previous_image_size,alignment)
-            self.__background.paste(
-                im=image,
-                box=coordinates,
-                mask=image
+            if index == main_index:
+                images_draw_after.append({
+                    "im":image,
+                    "box":coordinates,
+                    "mask":image
+                })
+            else:
+                self.__background.paste(
+                    im=image,
+                    box=coordinates,
+                    mask=image
                 )
+
             previous_image_size = image.size
             previous_coordinates = coordinates
+        for image in images_draw_after:
+            self.__background.paste(
+                im=image['im'],
+                box=image['box'],
+                mask=image['mask']
+            )
+            
         return self.__background
     
-    def make_stack(self,transform=default)->Image.Image:
+    def make_stack(self,transform=default,main_index:int=1)->Image.Image:
         """
         # Transform
         Es una función de transformación que se aplica a cada una de las `MarkImage` del `MarkStack` (no es obligatoria). \n
@@ -305,5 +322,5 @@ class MarkStack:
         ## IMPORTANTE
         Recuerda usar el argumento `force` en True siempre (cuando uses este callback) para que no tengas problema con el Historial que bloquea la acción de aplicar mas de una vez una transformación a un MarkImage.\n
         """
-        return self._paste_images(transform)
+        return self._paste_images(transform,main_index)
         
