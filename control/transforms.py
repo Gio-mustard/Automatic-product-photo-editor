@@ -1,6 +1,8 @@
 from PIL import Image,ImageFilter
 from PIL.Image import Resampling
 from . history import History
+import numpy as np
+from . imtools import get_image_row
 
 def __check_history(im,id_mark_image,transform)->Image.Image|None:
     if History.has(
@@ -77,8 +79,9 @@ def out_shadow(im:Image.Image,id_mark_image:str,shadow_color:tuple=(0,0,0,255),c
     )
     # create a canvas
     if not crop:
-        width += (width // 10) + abs(offset[0])
-        height += (height // 10) + abs(offset[1])
+        multiplier_size = 3
+        width += int((width // 10) + abs(offset[0]) * multiplier_size)
+        height += int((height // 10) + abs(offset[1]) * multiplier_size)
     
     canvas = Image.new("RGBA",(width, height),color=(0,0,0,0))
     # paste a shadow in canvas
@@ -95,3 +98,46 @@ def out_shadow(im:Image.Image,id_mark_image:str,shadow_color:tuple=(0,0,0,255),c
     # paste main image
     canvas.paste(im,coordinates_shadow,mask=im)
     return canvas
+
+
+def auto_crop(im: Image.Image,id_mark_image:str, force:bool=False,min_count_pixel:int=10,**kwargs) -> Image.Image:
+    """
+    Crops an image by detecting the first row with a minimum of continuous pixels.
+
+    Args:
+        im (Image.Image): The input image to be cropped.
+        min_cont_pixel (int, optional): The minimum number of continuous pixels required to consider a row. Defaults to 10.
+
+    Returns:
+        Image.Image: The cropped image.
+    """
+    if not force:
+        returned = __check_history(im,id_mark_image,auto_crop)
+        if isinstance(returned,Image.Image):return returned
+    
+    width, height = im.size
+    if im.mode != "RGBA":
+        im = im.convert("RGBA")
+
+    # vertical crop
+    min_count_pixel = min_count_pixel # ? it's necessary ??
+    cropped_image = []
+    for y_index in range(height):
+        current_cont_pixel = 0
+        for x_index in range(width):
+            if ((y_index + min_count_pixel)) >= height:
+                break
+
+            pixel = im.getpixel((x_index, y_index)) 
+            if pixel[-1] not in range(0, 100):
+                current_cont_pixel += 1
+            
+            if current_cont_pixel >= min_count_pixel:
+                row = get_image_row(
+                    image=im,
+                    row_index=y_index
+                )
+                cropped_image.append(row)
+                break
+
+    return Image.fromarray(np.array(cropped_image),mode='RGBA')
