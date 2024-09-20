@@ -1,6 +1,7 @@
 import { mark_settings } from "./canvas.js";
 import { advance_options } from "./advance-mode.js";
 import { images } from "./main.js";
+import { modalInformation } from "./modal-information.js";
 
 const btn_make_stack = document.getElementById("btn-make-stack");
 const canvas = document.getElementById("canvas");
@@ -27,6 +28,9 @@ btn_make_stack.onclick = async () => {
     const new_advanced_settings = JSON.parse(JSON.stringify(advance_options))
     new_advanced_settings['background_image'] = background_image
     if (images.length <= 0) return
+    modalInformation.show()
+    modalInformation.setStep(1)
+
     new_settings.background_color = interpreter_bg_color(new_settings.background_color)
     new_advanced_settings.remove_bg_options.background_color = interpreter_single_bg_color(
         new_advanced_settings.remove_bg_options.apply_bg_color?new_advanced_settings.remove_bg_options.background_color:'rgba(0,0,0,0)'
@@ -64,10 +68,10 @@ btn_make_stack.onclick = async () => {
             enlaceDescarga.download = 'contenedor_capturado.png'; // Nombre del archivo de descarga
             enlaceDescarga.click();
         }
+        modalInformation.setStep(2)
     }
     else{
-        // TODO: hay que cambiar como notificar los errores.
-        alert(`Error ${await response.text()}`)
+        modalInformation.notifyError(`Error ${await response.text()}`)
     }
 }
 
