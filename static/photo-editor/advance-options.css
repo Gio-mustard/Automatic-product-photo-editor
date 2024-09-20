@@ -7,7 +7,7 @@
     gap: 2vh;
     padding: 2vh;
     overflow-y: hidden;
-    transition: width .5s;
+    transition: width .5s,margin-left .5s;
     width: var(--width-aside);
     overflow: hidden;
 }
@@ -18,14 +18,10 @@
 }
 #advance-options-aside.hidden{
     width: 0;
-    padding: 0;
+    margin-left: -4vh;
 }
 #advance-options-aside> *{
-    opacity: 1;
-    transition: opacity .1s;
-}
-#advance-options-aside.hidden > *{
-    opacity: 0;
+    min-width: calc(var(--width-aside) - 4vh);
 }
 #settings-each-image{
     width: 100%;

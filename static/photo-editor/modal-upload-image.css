@@ -11,13 +11,19 @@
     opacity: 1;
     transform: translateY(0);
     transition: opacity .5s,transform .2s ;
-    z-index: 20;
+    z-index: 200;
     display: grid;
-    grid-template-rows: 3fr .5fr 1fr ;
+    grid-template-rows: 3fr .5fr .5fr .3fr ;
+    gap: 1vh;
     padding: 1vh;
+}
+#modal-upload-image > h2{
+    font-size: 1.5vh !important;
+    opacity: .8;
 }
 #modal-preview{
     width: 100%;
+    max-width: 100%;
     height: 100%;
     object-fit: cover;
     border-radius: .8vh;
@@ -26,6 +32,16 @@
 }
 #modal-filename{
     color: #5e5a5a;
+    text-align: left;
+    word-wrap: break-word;
+    font-size: 2.5vh;
+}
+#modal-extension{
+    padding: .5vh;
+    background-color: var(--button-green);
+    width: fit-content;
+    font-weight: bold;
+    border-radius: .5vh;
 }
 #modal-upload-image > h2{
     font-size: 2.5vh;

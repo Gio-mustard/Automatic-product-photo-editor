@@ -1,6 +1,7 @@
 /*
 Este script se encarga de controlar la entrada y salidas de la imágenes al stack, todo se resume en que los objetos `PreviewImage` que estén en el array `images` son las imágenes que están listas para ser enviadas a editar al servidor.
 */
+import { cut_title,get_extension } from "../tools/main.js";
 // inicializaron del script
 globalThis.imagesInStack = 0
 
@@ -66,8 +67,11 @@ const push_image = async (file, update_dom = false) => {
 }
 let temp_images_to_show_modal = [];
 const show_modal_preview = () => {
+    const filename = temp_images_to_show_modal[0].file.name
+    const extension = get_extension(filename)
     document.getElementById('modal-preview').src = temp_images_to_show_modal[0].src
-    document.getElementById('modal-filename').innerText = temp_images_to_show_modal[0].file.name
+    document.getElementById('modal-filename').innerText = cut_title(filename).replace(extension,"");
+    document.getElementById('modal-extension').innerText = "."+ extension;
     document.getElementById('count-upload-images').innerText = `${temp_images_to_show_modal.length}`;
     modal_upload_image.className = ""
     setTimeout(() => {

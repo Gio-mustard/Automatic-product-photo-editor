@@ -35,6 +35,13 @@ body{
     background-color: var(--button-green);
     border-radius: 4vh;
     width: 20vh;
+    padding: 0 !important;
+}
+#btn-start > a{
+    display: block;
+    border-radius: inherit;
+    width: 100%;
+    height: 100%;
 }
 #section-title{
     display: flex;

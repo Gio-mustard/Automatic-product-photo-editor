@@ -84,6 +84,7 @@ button.selectable{
 }
 button.selectable:hover{
     background-color: var(--shadow);
+    backdrop-filter: blur(10px);
 }
 button.selectable.active{
     background-color: var(--button-green);

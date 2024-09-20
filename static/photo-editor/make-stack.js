@@ -3,6 +3,7 @@ import { advance_options } from "./advance-mode.js";
 import { images } from "./main.js";
 
 const btn_make_stack = document.getElementById("btn-make-stack");
+const canvas = document.getElementById("canvas");
 const btn_save_stack = document.getElementById("btn-save-stack");
 const canvas_image = document.getElementById("canvas-image");
 const micro_canvas_image = document.getElementById("micro-canvas-image");
@@ -53,6 +54,7 @@ btn_make_stack.onclick = async () => {
         const url = URL.createObjectURL(blob)
         image_in_canvas.blob = blob;
         image_in_canvas.url = url;
+        canvas.style.backgroundImage = `url(${url})`
         canvas_image.src = url
         micro_canvas_image.src = url
         btn_save_stack.className = "";
