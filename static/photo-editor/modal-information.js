@@ -16,6 +16,7 @@ class ModalInformation{
         this.modal.classList.add('hidden');
     }
     #clearSteps(){
+        this.modal.classList.remove('completed');
         this.steps.forEach(step => {
             step.classList.remove('current');
         });

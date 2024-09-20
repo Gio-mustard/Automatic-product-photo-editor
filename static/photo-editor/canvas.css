@@ -71,3 +71,7 @@
     opacity: .5;
     transform: translateY(.5vh);
 }
+#btn-save-stack.not-ready-to-save:active{
+    translate: 0;
+    
+}

@@ -26,12 +26,14 @@
 #settings-each-image{
     width: 100%;
     height: auto;
+    display: flex;
+    flex-direction: column;
 }
 #advance-options-aside > section{
     background-color: #EEEEEE;
     border-radius: .5vh;
     padding: .5vh;
-    gap: 1vh;
+    gap: .5vh;
 }
 #preview-drop-background{
     position: absolute;
